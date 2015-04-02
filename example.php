@@ -2,7 +2,8 @@
 
 $path = $_SERVER['PATH_INFO'];
 
-if ($path = '/address')
+
+if ($path == '/address')
 {
   $controller = new \Controller();
   $return = $controller->ex();
@@ -11,12 +12,12 @@ if ($path = '/address')
 
 class Controller
 {
-  $addresses = [];
+  private $addresses = [];
 
   function ex()
   {
     $this->rcd();
-    $id = $_GET['id']
+    $id = $_GET['id'];
     $address = $this->addresses[$id];
     return json_encode($address);
   }
@@ -26,13 +27,13 @@ class Controller
     $file = fopen('example.csv', 'r');
     while (($line = fgetcsv($file)) !== FALSE) {
         $this->addresses[] = [
-            name = $line[0],
-            phone = $line[1],
-            street = $line[2]
-        ]
+            'name' => $line[0],
+            'phone' => $line[1],
+            'street' => $line[2]
+        ];
     }
 
     fclose($file);
   }
 }
-?>
+
