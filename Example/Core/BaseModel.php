@@ -15,11 +15,17 @@ abstract class BaseModel {
     public $id = null;
 
     public function __construct($data = null) {
+        //echo "new instance of address with data: ".print_r($data, true);
+        $this->set($data);
+    }
+
+    public function set($data) {
         if ($data) {
+            $params = get_object_vars($this);
             foreach ($data as $key=>$value) {
-               if (array_key_exists($key, get_object_vars($this))) {
-                   $this->$key = $value;
-               }
+                if (array_key_exists($key, $params)) {
+                    $this->$key = $value;
+                }
             }
         }
     }
@@ -33,7 +39,7 @@ abstract class BaseModel {
         $db = Database::connection();
         $params = get_object_vars($this);
         $table = static::table(); // late static binding to get subclass name
-        echo $table;
+
         // prepare statement
         $stmt = $db->prepare("INSERT OR REPLACE INTO ".$table." ( ".implode(",", array_keys($params))." ) VALUES ( :".implode(", :", array_keys($params))." )");
 
@@ -50,7 +56,7 @@ abstract class BaseModel {
             return true;
         }
         catch (\Exception $e) {
-            error_log('Caught exception while saving model '.$table,  $e->getMessage());
+            error_log('Caught exception while saving model '.$table.': '.$e->getMessage());
             $error = $e->getMessage();
             return $error;
         }
@@ -62,8 +68,13 @@ abstract class BaseModel {
         $stmt = $db->prepare("SELECT * FROM ".$table." WHERE id = ?");
         $stmt->execute([$id]);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        $class = get_called_class();
-        return new $class($result);
+        if ($result) {
+            $class = get_called_class();
+            return new $class($result);
+        }
+        else {
+            return null;
+        }
     }
 
     public static function findAll() {
@@ -72,11 +83,23 @@ abstract class BaseModel {
         $stmt = $db->prepare("SELECT * FROM ".$table." WHERE 1");
         $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        $objects = [];
-        $class = get_called_class();
-        foreach ($result as $row) {
-            $objects[] = new $class($row);
+        if (count($result)) {
+            $objects = [];
+            $class = get_called_class();
+            foreach ($result as $row) {
+                $objects[] = new $class($row);
+            }
+            return $objects;
         }
-        return $objects;
+        else {
+            return null;
+        }
+    }
+
+    public static function delete($id) {
+        $db = Database::connection();
+        $table = static::table();
+        $stmt = $db->prepare("DELETE FROM ".$table." WHERE id = ?");
+        return $stmt->execute([$id]);
     }
 }

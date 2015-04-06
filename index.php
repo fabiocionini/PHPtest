@@ -6,6 +6,8 @@
  * Time: 16:17
  */
 
+use \Example\Controllers\AddressController;
+
 header("Content-Type: text/plain; charset=UTF-8");
 
 require_once('SplClassLoader.php');
@@ -21,8 +23,14 @@ $address->address = 'addr';
 
 $address->save();
 
-print_r($address);
+$a = new AddressController();
 
-print_r($address::find(1));
+$a->create(['name' => 'pippo', 'phone' => '7865876567', 'address' => 'iuwyetiu']);
 
-print_r($address::findAll());
+$a->update(1, ['name' => 'aggiornato']);
+
+$a->destroy(2);
+
+$a->show(3);
+
+$a->index();

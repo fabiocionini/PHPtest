@@ -13,7 +13,7 @@ class Database {
 
     public static function connection() {
         // Create (connect to) SQLite database in file
-        $sqlite_db = new \PDO('sqlite:/tmp/addresses.sqlite3');
+        $sqlite_db = new \PDO('sqlite:/tmp/PHPtest.sqlite3');
 
         // Set error mode to exceptions
         $sqlite_db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

@@ -11,18 +11,18 @@ namespace Example\Core;
 
 class Response {
 
-    public $status;
-    public $message;
-    public $output;
-
-    public function __construct($status = null, $message = null, $output = null) {
-        $this->status = $status;
-        $this->message = $message;
-        $this->output = $output;
+    public static function json($output, $status = 200) {
+        http_response_code($status);
+        echo json_encode($output);
     }
 
-    public function json() {
-        return json_encode($this->output);
+    public static function text($output, $status = 200) {
+        http_response_code($status);
+        echo $output;
     }
 
+    public static function status($status = 200) {
+        http_response_code($status);
+        echo '';
+    }
 }

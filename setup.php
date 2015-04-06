@@ -11,7 +11,7 @@ date_default_timezone_set('UTC');
 
 try {
     // Create (connect to) SQLite database in file
-    $sqlite_db = new PDO('sqlite:/tmp/addresses.sqlite3');
+    $sqlite_db = new PDO('sqlite:/tmp/PHPTest.sqlite3');
 
     // Set error mode to exceptions
     $sqlite_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -22,6 +22,9 @@ try {
                 name TEXT,
                 phone TEXT,
                 address TEXT)");
+
+    $sqlite_db->exec("DELETE FROM address");
+    $sqlite_db->exec("VACUUM");
 
     // Set initial data
     $addresses = array(
