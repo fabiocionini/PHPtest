@@ -17,7 +17,7 @@ try {
     $sqlite_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Create table addresses
-    $sqlite_db->exec("CREATE TABLE IF NOT EXISTS addresses (
+    $sqlite_db->exec("CREATE TABLE IF NOT EXISTS address (
                 id INTEGER PRIMARY KEY,
                 name TEXT,
                 phone TEXT,
@@ -32,7 +32,7 @@ try {
     );
 
     // Prepare INSERT statement to SQLite3 file db
-    $insert = "INSERT INTO addresses (name, phone, address) VALUES (:name, :phone, :address)";
+    $insert = "INSERT INTO address (name, phone, address) VALUES (:name, :phone, :address)";
     $stmt = $sqlite_db->prepare($insert);
 
     // Bind parameters to statement variables

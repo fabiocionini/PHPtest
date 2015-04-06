@@ -9,23 +9,74 @@
 namespace Example\Core;
 
 
-abstract class BaseModel {
-    protected $connection = null;
-    public $id;
+use Example\Config\Database;
 
-    public function __construct($conn) {
-        $this->connection = $conn;
+abstract class BaseModel {
+    public $id = null;
+
+    public function __construct($data = null) {
+        if ($data) {
+            foreach ($data as $key=>$value) {
+               if (array_key_exists($key, get_object_vars($this))) {
+                   $this->$key = $value;
+               }
+            }
+        }
+    }
+
+    public static function table() {
+        return end(explode('\\', get_called_class()));
     }
 
     public function save() {
-        // TODO: add validation
+        // saves record to storage
+        $db = Database::connection();
+        $params = get_object_vars($this);
+        $table = static::table(); // late static binding to get subclass name
+        echo $table;
+        // prepare statement
+        $stmt = $db->prepare("INSERT OR REPLACE INTO ".$table." ( ".implode(",", array_keys($params))." ) VALUES ( :".implode(", :", array_keys($params))." )");
+
+        $data = [];
+        foreach ($params as $key=>$value) {
+            $data[':'.$key] = $value;
+        }
+
+        try {
+            $stmt->execute($data);
+            if ($this->id === null) {
+                $this->id = $db->lastInsertId();
+            }
+            return true;
+        }
+        catch (\Exception $e) {
+            error_log('Caught exception while saving model '.$table,  $e->getMessage());
+            $error = $e->getMessage();
+            return $error;
+        }
     }
 
-    public function find($params) {
-
+    public static function find($id) {
+        $db = Database::connection();
+        $table = static::table();
+        $stmt = $db->prepare("SELECT * FROM ".$table." WHERE id = ?");
+        $stmt->execute([$id]);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $class = get_called_class();
+        return new $class($result);
     }
 
-    public function findOne($id) {
-
+    public static function findAll() {
+        $db = Database::connection();
+        $table = static::table();
+        $stmt = $db->prepare("SELECT * FROM ".$table." WHERE 1");
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $objects = [];
+        $class = get_called_class();
+        foreach ($result as $row) {
+            $objects[] = new $class($row);
+        }
+        return $objects;
     }
 }

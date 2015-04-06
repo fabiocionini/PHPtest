@@ -10,6 +10,8 @@ namespace Example\Models;
 
 use Example\Core\BaseModel;
 
-class AddressModel extends BaseModel {
-
+class Address extends BaseModel {
+    public $name;
+    public $phone;
+    public $address;
 }
