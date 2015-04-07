@@ -45,6 +45,7 @@ class AddressController extends BaseController {
      */
     public function show($id)
     {
+        error_log("SHOW ".$id);
         $address = Address::find($id);
         if ($address) {
             AddressView::json($address);

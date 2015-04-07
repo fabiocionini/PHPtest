@@ -7,30 +7,33 @@
  */
 
 use \Example\Controllers\AddressController;
-
-header("Content-Type: text/plain; charset=UTF-8");
+use \Example\Core\Router;
+use \Example\Config\Routes;
 
 require_once('SplClassLoader.php');
 $loader = new SplClassLoader('Example', '.');
 $loader->register();
 
-use Example\Models\Address;
+//use Example\Models\Address;
 
-$address = new Address();
-$address->name = 'nome';
-$address->phone = '8765786587';
-$address->address = 'addr';
+//$address = new Address();
+//$address->name = 'nome';
+//$address->phone = '8765786587';
+//$address->address = 'addr';
+//
+//$address->save();
 
-$address->save();
+//$a->create(['name' => 'pippo', 'phone' => '7865876567', 'address' => 'iuwyetiu']);
+//
+//$a->update(1, ['name' => 'aggiornato']);
+//
+//$a->destroy(2);
+//
+//$a->show(3);
+//
+//$a->index();
 
-$a = new AddressController();
+$router = new Router();
+$router->setup(Routes::$data);
 
-$a->create(['name' => 'pippo', 'phone' => '7865876567', 'address' => 'iuwyetiu']);
-
-$a->update(1, ['name' => 'aggiornato']);
-
-$a->destroy(2);
-
-$a->show(3);
-
-$a->index();
+$router->handle();
