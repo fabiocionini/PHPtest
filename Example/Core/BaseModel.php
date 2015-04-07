@@ -13,15 +13,28 @@ use Example\Config\Database;
 
 abstract class BaseModel {
     public $id = null;
+    //public $rules = [];
 
     public function __construct($data = null) {
-        //echo "new instance of address with data: ".print_r($data, true);
         $this->set($data);
+    }
+
+    private function get_model_vars() {
+        $reflection = new \ReflectionObject($this);
+        $class = get_called_class();
+        $properties = get_object_vars($this);
+        $model_vars = [];
+        foreach ($properties as $key=>$value) {
+            if ($key === 'id' || $reflection->getProperty($key)->getDeclaringClass()->getName() === $class) {
+                $model_vars[$key] = $value;
+            }
+        }
+        return $model_vars;
     }
 
     public function set($data) {
         if ($data) {
-            $params = get_object_vars($this);
+            $params = $this->get_model_vars();
             foreach ($data as $key=>$value) {
                 if (array_key_exists($key, $params)) {
                     $this->$key = $value;
@@ -37,7 +50,7 @@ abstract class BaseModel {
     public function save() {
         // saves record to storage
         $db = Database::connection();
-        $params = get_object_vars($this);
+        $params = $this->get_model_vars();
         $table = static::table(); // late static binding to get subclass name
 
         // prepare statement

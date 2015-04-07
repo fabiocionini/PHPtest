@@ -14,4 +14,5 @@ class Address extends BaseModel {
     public $name;
     public $phone;
     public $address;
+
 }

@@ -12,10 +12,11 @@ use Example\Core\BaseController;
 use Example\Core\HTTPStatus;
 use Example\Core\Response;
 use Example\Models\Address;
+use Example\Views\AddressView;
 
 class AddressController extends BaseController {
     /**
-     * Show the form for creating a new resource.
+     * Creates a new resource.
      *
      * @param array $params
      * @return Object
@@ -25,15 +26,15 @@ class AddressController extends BaseController {
         $new = new Address($params);
         $saved = $new->save();
         if ($saved === true) {
-            Response::json($new, HTTPStatus::$CREATED);
+            AddressView::json($new, HTTPStatus::$CREATED);
         }
         else {
-            Response::text($saved, HTTPStatus::$INTERNAL_SERVER_ERROR);
+            AddressView::error($saved, HTTPStatus::$INTERNAL_SERVER_ERROR);
         }
     }
 
     public function index() {
-        Response::json(Address::findAll());
+        AddressView::json(Address::findAll());
     }
 
     /**
@@ -46,10 +47,10 @@ class AddressController extends BaseController {
     {
         $address = Address::find($id);
         if ($address) {
-            Response::json($address);
+            AddressView::json($address);
         }
         else {
-            Response::status(HTTPStatus::$NOT_FOUND);
+            AddressView::error(HTTPStatus::$NOT_FOUND, 'Item not found.');
         }
     }
 
@@ -63,7 +64,7 @@ class AddressController extends BaseController {
     public function update($id, $params)
     {
         if (array_key_exists('id', $params)) {
-            Response::status(HTTPStatus::$BAD_REQUEST); // do not try to change record id!
+            Response::status(HTTPStatus::$BAD_REQUEST); // do not try to change record id when updating!
         }
         else {
             $address = Address::find($id);
@@ -71,14 +72,14 @@ class AddressController extends BaseController {
                 $address->set($params);
                 $saved = $address->save();
                 if ($saved === true) {
-                    Response::json($address);
+                    AddressView::json($address);
                 }
                 else {
-                    Response::text($saved, HTTPStatus::$INTERNAL_SERVER_ERROR);
+                    AddressView::error(HTTPStatus::$INTERNAL_SERVER_ERROR, $saved);
                 }
             }
             else {
-                Response::status(HTTPStatus::$NOT_FOUND);
+                AddressView::error(HTTPStatus::$NOT_FOUND);
             }
         }
     }
@@ -92,10 +93,10 @@ class AddressController extends BaseController {
     public function destroy($id)
     {
         if (Address::delete($id)) {
-            Response::status();
+            AddressView::status(HTTPStatus::$OK);
         }
         else {
-            Response::status(HTTPStatus::$NOT_FOUND);
+            AddressView::error(HTTPStatus::$NOT_FOUND);
         }
     }
 

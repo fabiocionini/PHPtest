@@ -11,4 +11,8 @@ namespace Example\Core;
 
 abstract class BaseView {
 
+    public static function text($output, $status = 200) {
+        http_response_code($status);
+        echo $output;
+    }
 }
