@@ -6,15 +6,17 @@
  * Time: 15:20
  */
 
-// Set default timezone
-date_default_timezone_set('UTC');
+use \Example\Config\Database;
+
+require_once('SplClassLoader.php');
+$loader = new SplClassLoader('Example', '.');
+$loader->register();
 
 try {
-    // Create (connect to) SQLite database in file
-    $sqlite_db = new PDO('sqlite:/tmp/PHPTest.sqlite3');
+    // Set default timezone
+    date_default_timezone_set('UTC');
 
-    // Set error mode to exceptions
-    $sqlite_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $sqlite_db = Database::connection();
 
     // Create table addresses
     $sqlite_db->exec("CREATE TABLE IF NOT EXISTS address (

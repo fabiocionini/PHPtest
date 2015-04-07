@@ -13,6 +13,8 @@ require_once('SplClassLoader.php');
 $loader = new SplClassLoader('Example', '.');
 $loader->register();
 
+
+
 $router = new Router();
 $router->setup(Routes::$data);
 
