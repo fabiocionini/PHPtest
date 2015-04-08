@@ -30,7 +30,7 @@ Routes are accessible via http://[hostname]/PHPtest/index.php/[route]
 ### GET /address/:id
 Retrieves address record specified by :id.
 
-**Returns:** a JSON object or **Error 404** if not found
+**Returns:** a JSON object or **Error 404** if record was not found
 
 ### GET /address
 Retrieves an array of all addresses.
@@ -48,19 +48,19 @@ Parameters in the POST body request can be provided in URI encoded format or JSO
 **Returns:** the newly created address object.
 
 ### PUT /address/:id
-Updates an existing address speciffied by :id.
+Updates an existing address specified by :id.
 **Parameters:** 
 - string *name* 
 - string *address*
 - string *phone*
 Parameters in the PUT body request can be provided in URI encoded format or JSON.
 
-**Returns:** the updated object or **404 Not found** if not found.
+**Returns:** the updated object or **404 Not found** if record was not found.
 
 ### DELETE /address/:id
 Retrieves address record specified by :id.
 
-**Returns:** a **200 OK** status or a **404 Not found** if not found.
+**Returns:** a **200 OK** status or a **404 Not found** if record was not found.
 
 
 ## TODO
@@ -71,3 +71,4 @@ Retrieves address record specified by :id.
 - More flexible Router URL parsing 
 - Support for PUT and DELETE through POST and GET alternative routes (for incompatible clients)
 - Better error and edge cases handling
+- Data validation in model

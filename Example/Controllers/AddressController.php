@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 05/04/15
  * Time: 17:35
  */
@@ -10,10 +10,16 @@ namespace Example\Controllers;
 
 use Example\Core\BaseController;
 use Example\Core\HTTPStatus;
-use Example\Core\Response;
 use Example\Models\Address;
 use Example\Views\AddressView;
 
+/**
+ * Class AddressController
+ *
+ * handles Address requests as mapped in Routes
+ *
+ * @package Example\Controllers
+ */
 class AddressController extends BaseController {
     /**
      * Creates a new resource.
@@ -45,7 +51,6 @@ class AddressController extends BaseController {
      */
     public function show($id)
     {
-        error_log("SHOW ".$id);
         $address = Address::find($id);
         if ($address) {
             AddressView::json($address);
@@ -60,12 +65,12 @@ class AddressController extends BaseController {
      *
      * @param  int  $id
      * @param array $params
-     * @return Response
+     * @return Object
      */
     public function update($id, $params)
     {
         if (array_key_exists('id', $params)) {
-            Response::status(HTTPStatus::$BAD_REQUEST); // do not try to change record id when updating!
+            AddressView::status(HTTPStatus::$BAD_REQUEST); // do not try to change record id when updating!
         }
         else {
             $address = Address::find($id);
@@ -89,7 +94,7 @@ class AddressController extends BaseController {
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return Object
      */
     public function destroy($id)
     {

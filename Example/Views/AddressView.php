@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 07/04/15
  * Time: 14:53
  */

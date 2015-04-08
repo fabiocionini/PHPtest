@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 07/04/15
  * Time: 15:31
  */
@@ -9,6 +9,10 @@
 namespace Example\Core;
 
 
+/**
+ * Class Router
+ * @package Example\Core
+ */
 class Router {
 
     private $routes = [];
@@ -17,12 +21,24 @@ class Router {
     private $id;
     private $data;
 
+    /**
+     * Sets routes
+     * Format is e.g. [ ["GET /item/:id" => "ItemController@show"], ...]
+     * @param array $routes
+     */
     public function setup($routes) {
         $this->routes = $routes;
     }
 
-    public function handle() {
-        $this->path = ltrim($_SERVER['PATH_INFO'], '/');
+    /**
+     * Handles an HTTP request
+     * @param string $method
+     * @param string $request
+     */
+    public function handle($method, $request) {
+
+        // extract request info from request path and method
+        $this->path = ltrim($request, '/');
         $path_elements = explode('/', $this->path);
         if (count($path_elements) > 1) {
             // more than one element, last element should be a parameter
@@ -32,12 +48,13 @@ class Router {
             $path_elements[$key] = ':id';
         }
 
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        // re-create pattern from path to see if it matches with one of the routes
+        $this->method = $method;
         $pattern = $this->method.' /'.implode('/', $path_elements);
 
         if (array_key_exists($pattern, $this->routes)) {
 
-            // call controller@method with id and parameters
+            // the route exists, call related controller@method with id and parameters
             list($controllerName, $methodName) = explode('@', $this->routes[$pattern]);
             $controllerName = '\\Example\\Controllers\\'.$controllerName;
             if (class_exists($controllerName)) {

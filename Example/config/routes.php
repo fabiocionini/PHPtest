@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 07/04/15
  * Time: 23:36
  */
@@ -9,6 +9,13 @@
 namespace Example\Config;
 
 
+/**
+ * Class Routes
+ *
+ * static class that contains routes configuration
+ *
+ * @package Example\Config
+ */
 class Routes {
     public static $data = [
         'GET /address'             => 'AddressController@index',

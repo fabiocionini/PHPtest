@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 05/04/15
  * Time: 17:32
  */
@@ -11,14 +11,26 @@ namespace Example\Core;
 
 use Example\Config\Database;
 
+/**
+ * Class BaseModel
+ * An abstract, Active Record based class that handles an object lifecycle
+ * @package Example\Core
+ */
 abstract class BaseModel {
-    public $id = null;
-    //public $rules = [];
 
+    public $id = null;
+
+    /**
+     * @param array $data
+     */
     public function __construct($data = null) {
         $this->set($data);
     }
 
+    /**
+     * Returns id and other public properties defined by model class
+     * @return array
+     */
     private function get_model_vars() {
         $reflection = new \ReflectionObject($this);
         $class = get_called_class();
@@ -32,6 +44,10 @@ abstract class BaseModel {
         return $model_vars;
     }
 
+    /**
+     * Sets model instance properties
+     * @param $data
+     */
     public function set($data) {
         if ($data) {
             $params = $this->get_model_vars();
@@ -43,10 +59,19 @@ abstract class BaseModel {
         }
     }
 
+    /**
+     * Get current model class name (called with late static binding to get subclass name)
+     * @return string
+     */
     public static function table() {
         return end(explode('\\', get_called_class()));
     }
 
+    /**
+     * Saves the object into DB storage
+     * Returns true if success, otherwise returns the error
+     * @return bool|string
+     */
     public function save() {
         // saves record to storage
         $db = Database::connection();
@@ -75,6 +100,11 @@ abstract class BaseModel {
         }
     }
 
+    /**
+     * Static class that retrieves an object by id, null if not found
+     * @param $id
+     * @return Object|null
+     */
     public static function find($id) {
         $db = Database::connection();
         $table = static::table();
@@ -90,6 +120,10 @@ abstract class BaseModel {
         }
     }
 
+    /**
+     * Static class that etrieves all objects, null if there are none
+     * @return array|null
+     */
     public static function findAll() {
         $db = Database::connection();
         $table = static::table();
@@ -109,6 +143,11 @@ abstract class BaseModel {
         }
     }
 
+    /**
+     * Static class that deletes an object by id
+     * @param $id
+     * @return bool
+     */
     public static function delete($id) {
         $db = Database::connection();
         $table = static::table();

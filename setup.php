@@ -1,13 +1,14 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 05/04/15
  * Time: 15:20
  */
 
 use \Example\Config\Database;
 
+// autoload classes (PSR-0)
 require_once('SplClassLoader.php');
 $loader = new SplClassLoader('Example', '.');
 $loader->register();
@@ -56,7 +57,7 @@ try {
         $stmt->execute();
     }
 
-    echo "Database setup complete, ".count($addresses)." records created.";
+    echo 'Database setup complete, '.count($addresses).' records created.';
 }
 catch(PDOException $e) {
     echo $e->getMessage();

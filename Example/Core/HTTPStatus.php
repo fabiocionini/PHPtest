@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 06/04/15
  * Time: 11:48
  */
@@ -9,6 +9,11 @@
 namespace Example\Core;
 
 
+/**
+ * Class HTTPStatus
+ * Contains common HTTP statuses as static properties
+ * @package Example\Core
+ */
 class HTTPStatus {
     public static $OK = 200;
     public static $CREATED = 201;
