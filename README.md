@@ -78,3 +78,4 @@ Retrieves address record specified by :id.
 - Support for PUT and DELETE through POST and GET alternative routes (for clients that do not support PUT/DELETE requests)
 - Better error and edge cases handling
 - Data validation in model
+- Improve Database to allow RDBMS portability (i.e. decouple db from model and implement a Database interface to abstract db queries)
