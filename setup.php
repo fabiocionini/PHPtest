@@ -24,34 +24,38 @@ try {
                 id INTEGER PRIMARY KEY,
                 name TEXT,
                 phone TEXT,
-                address TEXT)");
+                street TEXT)");
 
     $sqlite_db->exec("DELETE FROM address");
     $sqlite_db->exec("VACUUM");
 
     // Set initial data
-    $addresses = array(
-        array('name' => 'Michal', 'phone' => '506088156', 'address' => 'Michalowskiego 41'),
-        array('name' => 'Marcin', 'phone' => '502145785', 'address' => 'Opata Rybickiego 1'),
-        array('name' => 'Piotr',  'phone' => '504212369', 'address' => 'Horacego 23'),
-        array('name' => 'Albert', 'phone' => '605458547', 'address' => 'Jan Pawła 67')
-    );
+
+    $addresses = [];
+    $file = fopen('example.csv', 'r');
+    while (($line = fgetcsv($file)) !== FALSE) {
+        $addresses[] = [
+            'name' => $line[0],
+            'phone' => $line[1],
+            'street' => $line[2]
+        ];
+    }
 
     // Prepare INSERT statement to SQLite3 file db
-    $insert = "INSERT INTO address (name, phone, address) VALUES (:name, :phone, :address)";
+    $insert = "INSERT INTO address (name, phone, street) VALUES (:name, :phone, :street)";
     $stmt = $sqlite_db->prepare($insert);
 
     // Bind parameters to statement variables
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':phone', $phone);
-    $stmt->bindParam(':address', $address);
+    $stmt->bindParam(':street', $street);
 
     // execute prepared insert statement with every address
     foreach ($addresses as $a) {
         // Set values to bound variables
         $name = $a['name'];
         $phone = $a['phone'];
-        $address = $a['address'];
+        $street = $a['street'];
 
         // Execute statement
         $stmt->execute();

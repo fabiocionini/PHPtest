@@ -18,6 +18,6 @@ use Example\Core\BaseModel;
 class Address extends BaseModel {
     public $name;
     public $phone;
-    public $address;
+    public $street;
 
 }
