@@ -99,7 +99,7 @@ class AddressController extends BaseController {
     public function destroy($id)
     {
         if (Address::delete($id)) {
-            AddressView::status(HTTPStatus::$OK);
+            AddressView::status(HTTPStatus::$OK, 'Resource successfully deleted.');
         }
         else {
             AddressView::error(HTTPStatus::$NOT_FOUND);

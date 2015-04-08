@@ -5,7 +5,7 @@ This application is a RESTful HTTP API based on example files (provided in /orig
 The original files set up a basic HTTP GET service to retrieve "address" records from a CSV file.
 This application achieves the same functionality but it has been designed and developed as a full MVC, RESTful HTTP API.
 
-Added features are:
+## Main features
 
 - Model-View-Controller class structure
 - Namespaces
@@ -20,7 +20,7 @@ Added features are:
 
 ## Requirements
 PHP 5.5.x or better
-SQlite3 (included with PHP >= 5.4.x)
+SQLite3 (included with PHP >= 5.4.x)
 
 ## Installation and usage
 Should be compatible with major web servers.
@@ -74,7 +74,7 @@ Retrieves address record specified by :id.
 
 ## Possible improvements
 - Unit Tests!
-- More flexible Router URL parsing 
+- Response Content-Type based on request Accept header
 - Support for PUT and DELETE through POST and GET alternative routes (for clients that do not support PUT/DELETE requests)
 - Better error and edge cases handling
 - Data validation in model
