@@ -8,7 +8,6 @@
 
 namespace Example\Core;
 
-use Example\Core\RESTView;
 
 class Router {
 
