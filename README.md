@@ -16,6 +16,7 @@ Added features are:
 - Configurable router class handling incoming requests and forwarding them to a controller class
 - Full REST CRUD API (makes use of GET, POST, PUT, DELETE HTTP methods)
 - Architecture was designed for expandability and as a starting point for a bigger API application
+- Not using any external framework or library except for the included SplClassLoader.php (recommended PSR-0 autoload handler)
 
 ## Requirements
 PHP 5.5.x or better
@@ -26,9 +27,10 @@ Should be compatible with major web servers.
 Developed and tested on Apache/2.4.9.
 
 Please run **setup.php** once to create the SQLite database and fill it with initial data.
-Routes are accessible via http://[hostname]/PHPtest/index.php/[route]
 
 ## API specifications
+
+APIs are accessible via **http://[hostname]/PHPtest/index.php/[API call]**
 
 ### GET /address/:id
 Retrieves address record specified by :id.
