@@ -10,7 +10,7 @@ use \Example\Config\Database;
 
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');
-$loader = new SplClassLoader('Example', '.');
+$loader = new SplClassLoader('app', '.');
 $loader->register();
 
 try {

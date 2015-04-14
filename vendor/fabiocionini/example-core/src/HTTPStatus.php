@@ -6,13 +6,14 @@
  * Time: 11:48
  */
 
-namespace Example\Core;
+namespace FabioCionini\ExampleCore;
 
+// TODO: make it a config (i.e. incorporate into Router or BaseController?)
 
 /**
  * Class HTTPStatus
  * Contains common HTTP statuses as static properties
- * @package Example\Core
+ * @package app\Core
  */
 class HTTPStatus {
     public static $OK = 200;

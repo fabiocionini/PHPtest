@@ -6,12 +6,12 @@
  * Time: 15:31
  */
 
-namespace Example\Core;
+namespace FabioCionini\ExampleCore;
 
 
 /**
  * Class Router
- * @package Example\Core
+ * @package app\Core
  */
 class Router {
 
@@ -56,7 +56,7 @@ class Router {
 
             // the route exists, call related controller@method with id and parameters
             list($controllerName, $methodName) = explode('@', $this->routes[$pattern]);
-            $controllerName = '\\Example\\Controllers\\'.$controllerName;
+            $controllerName = '\\app\\Controllers\\'.$controllerName; //TODO: fix this :)
             if (class_exists($controllerName)) {
                 $controller = new $controllerName();
                 if (method_exists($controller, $methodName)) {

@@ -6,6 +6,8 @@
  * Time: 23:36
  */
 
+// TODO: make it a config array not a class
+
 namespace Example\Config;
 
 
@@ -14,7 +16,7 @@ namespace Example\Config;
  *
  * static class that contains routes configuration
  *
- * @package Example\Config
+ * @package app\Config
  */
 class Routes {
     public static $data = [

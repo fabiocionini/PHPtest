@@ -11,8 +11,10 @@ use \Example\Config\Routes;
 
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');
-$loader = new SplClassLoader('Example', '.');
-$loader->register();
+$vendor_loader = new SplClassLoader('vendor', '.');
+$vendor_loader->register();
+$app_loader = new SplClassLoader('app', '.');
+$app_loader->register();
 
 
 // initialize router and set up routes

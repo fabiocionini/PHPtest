@@ -8,7 +8,7 @@
 
 namespace Example\Views;
 
-use Example\Core\RESTView;
+use FabioCionini\ExampleCore\RESTView;
 
 class AddressView extends RESTView {
 

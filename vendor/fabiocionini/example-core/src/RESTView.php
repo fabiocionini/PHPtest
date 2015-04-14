@@ -6,13 +6,13 @@
  * Time: 14:52
  */
 
-namespace Example\Core;
+namespace FabioCionini\ExampleCore;
 
 
 /**
  * Class RESTView
  * REST API specific views, returns output, statuses and errors in JSON format
- * @package Example\Core
+ * @package app\Core
  */
 abstract class RESTView extends BaseView {
     /**

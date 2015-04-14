@@ -6,12 +6,12 @@
  * Time: 17:33
  */
 
-namespace Example\Core;
+namespace FabioCionini\ExampleCore;
 
 
 /**
  * Class BaseController
- * @package Example\Core
+ * @package app\Core
  */
 abstract class BaseController {
 

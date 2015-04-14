@@ -14,7 +14,7 @@ namespace Example\Config;
  *
  * provides a database connection
  *
- * @package Example\Config
+ * @package app\Config
  */
 class Database {
 
@@ -25,7 +25,7 @@ class Database {
      */
     public static function connection() {
         // Create (connect to) SQLite database in file
-        $sqlite_db = new \PDO('sqlite:'.sys_get_temp_dir().'PHPtest.sqlite3');
+        $sqlite_db = new \PDO('sqlite:'.sys_get_temp_dir().'PHPtest.sqlite3'); // TODO: db file in config
 
         // Set error mode to exceptions
         $sqlite_db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

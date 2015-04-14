@@ -6,15 +6,15 @@
  * Time: 17:32
  */
 
-namespace Example\Core;
+namespace FabioCionini\ExampleCore;
 
 
-use Example\Config\Database;
+use Example\Config\Database; //TODO: refactor - don't use app namespace inside core!
 
 /**
  * Class BaseModel
  * An abstract, Active Record based class that handles an object lifecycle
- * @package Example\Core
+ * @package app\Core
  */
 abstract class BaseModel {
 

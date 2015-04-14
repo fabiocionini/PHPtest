@@ -8,8 +8,8 @@
 
 namespace Example\Controllers;
 
-use Example\Core\BaseController;
-use Example\Core\HTTPStatus;
+use FabioCionini\ExampleCore\BaseController;
+use FabioCionini\ExampleCore\HTTPStatus;
 use Example\Models\Address;
 use Example\Views\AddressView;
 
@@ -18,7 +18,7 @@ use Example\Views\AddressView;
  *
  * handles Address requests as mapped in Routes
  *
- * @package Example\Controllers
+ * @package app\Controllers
  */
 class AddressController extends BaseController {
     /**
