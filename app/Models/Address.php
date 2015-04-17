@@ -6,7 +6,7 @@
  * Time: 17:36
  */
 
-namespace Example\Models;
+namespace app\Models;
 
 use FabioCionini\ExampleCore\BaseModel;
 

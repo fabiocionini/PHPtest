@@ -11,7 +11,7 @@ namespace FabioCionini\ExampleCore;
 
 /**
  * Class BaseController
- * @package app\Core
+ * @package FabioCionini\ExampleCore
  */
 abstract class BaseController {
 

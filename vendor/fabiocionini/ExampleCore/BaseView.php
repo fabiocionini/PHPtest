@@ -12,7 +12,7 @@ namespace FabioCionini\ExampleCore;
 /**
  * Class BaseView
  * Provides output views with HTTP statuses
- * @package app\Core
+ * @package FabioCionini\ExampleCore
  */
 abstract class BaseView {
 

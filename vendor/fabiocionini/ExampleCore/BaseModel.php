@@ -9,16 +9,17 @@
 namespace FabioCionini\ExampleCore;
 
 
-use Example\Config\Database; //TODO: refactor - don't use app namespace inside core!
-
 /**
  * Class BaseModel
  * An abstract, Active Record based class that handles an object lifecycle
- * @package app\Core
+ * Override $db_config to init database
+ *
+ * @package FabioCionini\ExampleCore
  */
 abstract class BaseModel {
 
     public $id = null;
+    protected $db_config = []; // this will be overridden in concrete classes to access db
 
     /**
      * @param array $data
@@ -74,7 +75,7 @@ abstract class BaseModel {
      */
     public function save() {
         // saves record to storage
-        $db = Database::connection();
+        $db = Database::connection($this->db_config);
         $params = $this->get_model_vars();
         $table = static::table(); // late static binding to get subclass name
 
@@ -121,7 +122,7 @@ abstract class BaseModel {
     }
 
     /**
-     * Static class that etrieves all objects, null if there are none
+     * Static class that retrieves all objects, null if there are none
      * @return array|null
      */
     public static function findAll() {

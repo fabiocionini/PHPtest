@@ -13,7 +13,7 @@ namespace FabioCionini\ExampleCore;
 /**
  * Class HTTPStatus
  * Contains common HTTP statuses as static properties
- * @package app\Core
+ * @package FabioCionini\ExampleCore
  */
 class HTTPStatus {
     public static $OK = 200;

@@ -11,7 +11,7 @@ namespace FabioCionini\ExampleCore;
 
 /**
  * Class Router
- * @package app\Core
+ * @package FabioCionini\ExampleCore
  */
 class Router {
 
@@ -26,7 +26,7 @@ class Router {
      * Format is e.g. [ ["GET /item/:id" => "ItemController@show"], ...]
      * @param array $routes
      */
-    public function setup($routes) {
+    public function setup(array $routes = []) {
         $this->routes = $routes;
     }
 

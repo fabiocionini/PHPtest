@@ -6,24 +6,18 @@
  * Time: 23:36
  */
 
-// TODO: make it a config array not a class
-
-namespace Example\Config;
-
 
 /**
- * Class Routes
+ * Routes configuration
  *
- * static class that contains routes configuration
- *
- * @package app\Config
+ * returns an associative array containing routes (HTTP method + path) and relative controller->method to be called
+ * @return array
  */
-class Routes {
-    public static $data = [
-        'GET /address'             => 'AddressController@index',
-        'GET /address/:id'         => 'AddressController@show',
-        'POST /address'            => 'AddressController@create',
-        'PUT /address/:id'         => 'AddressController@update',
-        'DELETE /address/:id'      => 'AddressController@destroy',
-    ];
-}
+
+return array(
+    'GET /address'        => 'AddressController@index',
+    'GET /address/:id'    => 'AddressController@show',
+    'POST /address'       => 'AddressController@create',
+    'PUT /address/:id'    => 'AddressController@update',
+    'DELETE /address/:id' => 'AddressController@destroy'
+);

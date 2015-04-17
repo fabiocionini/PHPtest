@@ -12,7 +12,7 @@ namespace FabioCionini\ExampleCore;
 /**
  * Class RESTView
  * REST API specific views, returns output, statuses and errors in JSON format
- * @package app\Core
+ * @package FabioCionini\ExampleCore
  */
 abstract class RESTView extends BaseView {
     /**

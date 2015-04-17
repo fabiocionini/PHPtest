@@ -6,12 +6,12 @@
  * Time: 17:35
  */
 
-namespace Example\Controllers;
+namespace app\Controllers;
 
 use FabioCionini\ExampleCore\BaseController;
 use FabioCionini\ExampleCore\HTTPStatus;
-use Example\Models\Address;
-use Example\Views\AddressView;
+use app\Models\Address;
+use app\Views\AddressView;
 
 /**
  * Class AddressController

@@ -6,7 +6,7 @@
  * Time: 15:20
  */
 
-use \Example\Config\Database;
+use \PHPtest\Config\Database;
 
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');

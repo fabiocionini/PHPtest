@@ -6,7 +6,7 @@
  * Time: 14:53
  */
 
-namespace Example\Views;
+namespace app\Views;
 
 use FabioCionini\ExampleCore\RESTView;
 
