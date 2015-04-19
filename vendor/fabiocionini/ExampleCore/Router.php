@@ -16,10 +16,13 @@ namespace FabioCionini\ExampleCore;
 class Router {
 
     private $routes = [];
-    private $method;
-    private $path;
-    private $id;
-    private $data;
+    private $connection;
+    private $controllersNamespace;
+
+    public function __construct($namespace, \PDO $connection) {
+        $this->controllersNamespace = $namespace;
+        $this->connection = $connection;
+    }
 
     /**
      * Sets routes
@@ -31,61 +34,40 @@ class Router {
     }
 
     /**
-     * Handles an HTTP request
-     * @param string $method
-     * @param string $request
+     * Handles a Request
+     *
+     * @param Request $request
      */
-    public function handle($method, $request) {
+    public function handle(Request $request) {
 
-        // extract request info from request path and method
-        $this->path = ltrim($request, '/');
-        $path_elements = explode('/', $this->path);
-        if (count($path_elements) > 1) {
-            // more than one element, last element should be a parameter
-            end($path_elements);
-            $key = key($path_elements);
-            $this->id = $path_elements[$key];
-            $path_elements[$key] = ':id';
-        }
+        $action = $request->getAction();
 
-        // re-create pattern from path to see if it matches with one of the routes
-        $this->method = $method;
-        $pattern = $this->method.' /'.implode('/', $path_elements);
-
-        if (array_key_exists($pattern, $this->routes)) {
+        if (array_key_exists($action, $this->routes)) {
 
             // the route exists, call related controller@method with id and parameters
-            list($controllerName, $methodName) = explode('@', $this->routes[$pattern]);
-            $controllerName = '\\app\\Controllers\\'.$controllerName; //TODO: fix this :)
-            if (class_exists($controllerName)) {
-                $controller = new $controllerName();
-                if (method_exists($controller, $methodName)) {
-                    if ($this->method === 'POST' || $this->method === 'PUT') {
-                        $body = @file_get_contents('php://input');
-                        if ($body) {
-                            // try if body data is json
-                            $json = json_decode($body);
-                            if ($json) {
-                                $this->data = $json;
-                            }
-                            else {
-                                // if not json, parse as key=value
-                                parse_str($body, $this->data);
-                            }
-                        }
+            list($controllerName, $methodName) = explode('@', $this->routes[$action]);
 
-                        if ($this->id) {
+            $controllerName = $this->controllersNamespace.'\\'.$controllerName;
+            if (class_exists($controllerName)) {
+                $controller = new $controllerName($this->connection); // creates a new controller passing the db connection (dependency injection)
+                if (method_exists($controller, $methodName)) {
+
+                    $id = $request->getId();
+                    $data = $request->getData();
+
+                    if ($data) {
+                        if ($id) {
                             // PUT
-                            $controller->$methodName($this->id, $this->data);
+                            $controller->$methodName($id, $data);
                         }
                         else {
                             // POST
-                            $controller->$methodName($this->data);
+                            $controller->$methodName($data);
                         }
                     }
                     else {
                         // GET & DELETE
-                        $controller->$methodName($this->id);
+                        $controller->$methodName($id);
                     }
                 }
                 else {

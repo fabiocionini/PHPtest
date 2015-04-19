@@ -8,8 +8,6 @@
 
 namespace FabioCionini\ExampleCore;
 
-// TODO: make it a config (i.e. incorporate into Router or BaseController?)
-
 /**
  * Class HTTPStatus
  * Contains common HTTP statuses as static properties
