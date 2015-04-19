@@ -12,11 +12,18 @@ This application achieves the same functionality but it has been designed and de
 - PSR-0 class autoloading
 - Base abstract classes for models, views, controller
 - SQLite backed storage for maximum portability
-- Active Record pattern for models
+- Domain-Model-Mapper pattern for data objects
 - Configurable router class handling incoming requests and forwarding them to a controller class
 - Full REST CRUD API (makes use of GET, POST, PUT, DELETE HTTP methods)
 - Architecture was designed for expandability and as a starting point for a bigger API application
 - Not using any external framework or library except for the included SplClassLoader.php (recommended PSR-0 autoload handler)
+
+## Latest improvements
+- Vendor-like structure for core classes
+- Database and routes configuration now are php arrays
+- Offloaded some logic from the Router: created a Request object that parses its own data
+- Added a Data Mapper object removing DB access from the model classes
+- Removed hardcoded namespace paths inside core classes
 
 ## Requirements
 PHP 5.5.x or better
