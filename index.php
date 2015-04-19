@@ -8,6 +8,7 @@
 
 use \FabioCionini\ExampleCore\Router;
 use \FabioCionini\ExampleCore\Database;
+use \FabioCionini\ExampleCore\Request;
 
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');
@@ -16,34 +17,19 @@ $vendor_loader->register();
 $app_loader = new SplClassLoader('app', '.');
 $app_loader->register();
 
-
-/**
- *
- *
- * @return null|PDO
- */
-
-$dbhProvider = function() {
-    $db = null;
-    $config = include('app/Config/database.php');
-    if (array_key_exists('driver', $config) && array_key_exists($config['driver'], $config['config'])) {
-        switch($config['driver']) {
-            case 'sqlite':
-                $db = new \PDO('sqlite:'.$config['config']['sqlite']['filename']);
-                $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                break;
-            default:
-                break;
-        }
-    }
-    return $db;
-};
-
+// initialize db connection and data mapper
+$db_config = include('app/Config/database.php');
+$connection = Database::connection($db_config);
 
 // initialize router and set up routes
+$controllersNamespace = "\\app\\Controllers";
+$router = new Router($controllersNamespace, $connection); // router handles requests by initializing controllers so we must pass a connection object (dependency injection)
 $routes = include('app/Config/routes.php');
-$router = new Router();
 $router->setup($routes);
 
+
+
 // handle current request
-$router->handle($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
+$request = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
+
+$router->handle($request);

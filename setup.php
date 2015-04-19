@@ -6,18 +6,21 @@
  * Time: 15:20
  */
 
-use \PHPtest\Config\Database;
+use \FabioCionini\ExampleCore\Database;
 
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');
-$loader = new SplClassLoader('app', '.');
-$loader->register();
+$vendor_loader = new SplClassLoader('FabioCionini\\ExampleCore', 'vendor');
+$vendor_loader->register();
+$app_loader = new SplClassLoader('app', '.');
+$app_loader->register();
 
 try {
     // Set default timezone
     date_default_timezone_set('UTC');
 
-    $sqlite_db = Database::connection();
+    $config = include('app/Config/database.php');
+    $sqlite_db = Database::connection($config);
 
     // Create table addresses
     $sqlite_db->exec("CREATE TABLE IF NOT EXISTS address (
