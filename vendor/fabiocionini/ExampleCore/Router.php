@@ -51,7 +51,6 @@ class Router {
             if (class_exists($controllerName)) {
                 $controller = new $controllerName($this->connection); // creates a new controller passing the db connection (dependency injection)
                 if (method_exists($controller, $methodName)) {
-
                     $id = $request->getId();
                     $data = $request->getData();
 
@@ -77,6 +76,9 @@ class Router {
             else {
                 RESTView::error(HTTPStatus::$BAD_REQUEST, 'Resource '.$controllerName.' does not exist');
             }
+        }
+        else {
+            RESTView::error(HTTPStatus::$BAD_REQUEST, 'Your request cannot be routed.');
         }
    }
 

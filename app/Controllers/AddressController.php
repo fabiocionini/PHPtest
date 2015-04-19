@@ -88,7 +88,7 @@ class AddressController extends BaseController {
             $address = $this->mapper->find($id);
             if ($address) {
                 $address->set($params);
-                $saved = $this->mapper->save($address);
+                $saved = $this->mapper->insertOrUpdate($address);
                 if ($saved === true) {
                     AddressView::json($address);
                 }
@@ -110,11 +110,15 @@ class AddressController extends BaseController {
      */
     public function destroy($id)
     {
-        if ($this->mapper->delete($id)) {
-            AddressView::status(HTTPStatus::$OK, 'Resource successfully deleted.');
+        if ($id) {
+            if ($this->mapper->delete($id)) {
+                AddressView::status(HTTPStatus::$OK, 'Resource successfully deleted.');
+            } else {
+                AddressView::error(HTTPStatus::$NOT_FOUND);
+            }
         }
         else {
-            AddressView::error(HTTPStatus::$NOT_FOUND);
+            AddressView::error(HTTPStatus::$BAD_REQUEST);
         }
     }
 
