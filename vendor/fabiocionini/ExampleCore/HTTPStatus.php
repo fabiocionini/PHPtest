@@ -6,13 +6,12 @@
  * Time: 11:48
  */
 
-namespace Example\Core;
-
+namespace FabioCionini\ExampleCore;
 
 /**
  * Class HTTPStatus
  * Contains common HTTP statuses as static properties
- * @package Example\Core
+ * @package FabioCionini\ExampleCore
  */
 class HTTPStatus {
     public static $OK = 200;

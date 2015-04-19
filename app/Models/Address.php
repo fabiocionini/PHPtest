@@ -6,14 +6,14 @@
  * Time: 17:36
  */
 
-namespace Example\Models;
+namespace app\Models;
 
-use Example\Core\BaseModel;
+use FabioCionini\ExampleCore\BaseModel;
 
 /**
  * Class Address
  * extends base model providing object properties (map 1:1 with DB)
- * @package Example\Models
+ * @package app\Models
  */
 class Address extends BaseModel {
     public $name;

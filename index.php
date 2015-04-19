@@ -6,18 +6,30 @@
  * Time: 16:17
  */
 
-use \Example\Core\Router;
-use \Example\Config\Routes;
+use \FabioCionini\ExampleCore\Router;
+use \FabioCionini\ExampleCore\Database;
+use \FabioCionini\ExampleCore\Request;
 
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');
-$loader = new SplClassLoader('Example', '.');
-$loader->register();
+$vendor_loader = new SplClassLoader('FabioCionini\\ExampleCore', 'vendor');
+$vendor_loader->register();
+$app_loader = new SplClassLoader('app', '.');
+$app_loader->register();
 
+// initialize db connection and data mapper
+$db_config = include('app/Config/database.php');
+$connection = Database::connection($db_config);
 
 // initialize router and set up routes
-$router = new Router();
-$router->setup(Routes::$data);
+$controllersNamespace = "\\app\\Controllers";
+$router = new Router($controllersNamespace, $connection); // router handles requests by initializing controllers so we must pass a connection object (dependency injection)
+$routes = include('app/Config/routes.php');
+$router->setup($routes);
+
+
 
 // handle current request
-$router->handle($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
+$request = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
+
+$router->handle($request);

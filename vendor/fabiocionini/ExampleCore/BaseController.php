@@ -6,13 +6,13 @@
  * Time: 17:33
  */
 
-namespace Example\Core;
+namespace FabioCionini\ExampleCore;
 
 
 /**
  * Class BaseController
- * @package Example\Core
+ * @package FabioCionini\ExampleCore
  */
 abstract class BaseController {
-
+    protected $mapper; // a DataMapper object
 }

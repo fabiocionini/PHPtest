@@ -6,13 +6,13 @@
  * Time: 17:34
  */
 
-namespace Example\Core;
+namespace FabioCionini\ExampleCore;
 
 
 /**
  * Class BaseView
  * Provides output views with HTTP statuses
- * @package Example\Core
+ * @package FabioCionini\ExampleCore
  */
 abstract class BaseView {
 
