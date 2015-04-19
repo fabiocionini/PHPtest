@@ -82,10 +82,10 @@ abstract class DataMapper {
     /**
      * Saves the object into DB storage (or updates it if it exists)
      * Returns true if success, otherwise returns the error
-     * @param Object (BaseModel) $object
+     * @param BaseModel $object
      * @return bool|string
      */
-    public function insertOrUpdate($object) {
+    public function insertOrUpdate(BaseModel $object) {
         // prepare statement
         $params = $object->get_model_vars();
         $stmt = $this->pdo->prepare("INSERT OR REPLACE INTO ".$this->modelName." ( ".implode(",", array_keys($params))." ) VALUES ( :".implode(", :", array_keys($params))." )");
