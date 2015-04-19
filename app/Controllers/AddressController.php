@@ -12,6 +12,7 @@ use FabioCionini\ExampleCore\BaseController;
 use FabioCionini\ExampleCore\HTTPStatus;
 use app\Models\Address;
 use app\Views\AddressView;
+use app\Mappers\AddressMapper;
 
 /**
  * Class AddressController
@@ -21,16 +22,27 @@ use app\Views\AddressView;
  * @package app\Controllers
  */
 class AddressController extends BaseController {
+
+    /**
+     * Initializes the controller and creates a mapper object using the provided db connection
+     *
+     * @param \PDO $pdo
+     */
+    public function __construct(\PDO $pdo) {
+        $this->mapper = new AddressMapper($pdo);
+    }
+
     /**
      * Creates a new resource.
      *
      * @param array $params
      * @return Object
      */
+
     public function create($params)
     {
         $new = new Address($params);
-        $saved = $new->save();
+        $saved = $this->mapper->insertOrUpdate($new);
         if ($saved === true) {
             AddressView::json($new, HTTPStatus::$CREATED);
         }
@@ -40,7 +52,7 @@ class AddressController extends BaseController {
     }
 
     public function index() {
-        AddressView::json(Address::findAll());
+        AddressView::json($this->mapper->findAll());
     }
 
     /**
@@ -51,7 +63,7 @@ class AddressController extends BaseController {
      */
     public function show($id)
     {
-        $address = Address::find($id);
+        $address = $this->mapper->find($id);
         if ($address) {
             AddressView::json($address);
         }
@@ -73,10 +85,10 @@ class AddressController extends BaseController {
             AddressView::status(HTTPStatus::$BAD_REQUEST); // do not try to change record id when updating!
         }
         else {
-            $address = Address::find($id);
+            $address = $this->mapper->find($id);
             if ($address) {
                 $address->set($params);
-                $saved = $address->save();
+                $saved = $this->mapper->save($address);
                 if ($saved === true) {
                     AddressView::json($address);
                 }
@@ -98,7 +110,7 @@ class AddressController extends BaseController {
      */
     public function destroy($id)
     {
-        if (Address::delete($id)) {
+        if ($this->mapper->delete($id)) {
             AddressView::status(HTTPStatus::$OK, 'Resource successfully deleted.');
         }
         else {

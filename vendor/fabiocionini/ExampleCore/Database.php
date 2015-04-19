@@ -28,19 +28,19 @@ class Database {
 
     public static function connection($config) {
 
-        $db = null;
+        $pdo = null;
 
         if (array_key_exists('driver', $config) && array_key_exists($config['driver'], $config['config'])) {
             switch($config['driver']) {
                 case 'sqlite':
-                    $db = new \PDO('sqlite:'.$config['config']['sqlite']['filename']);
-                    $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                    $pdo = new \PDO('sqlite:'.$config['config']['sqlite']['filename']);
+                    $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
                     break;
                 default:
                     break;
             }
         }
 
-        return $db;
+        return $pdo;
     }
 }

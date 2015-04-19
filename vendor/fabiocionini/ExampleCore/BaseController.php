@@ -14,5 +14,5 @@ namespace FabioCionini\ExampleCore;
  * @package FabioCionini\ExampleCore
  */
 abstract class BaseController {
-
+    protected $mapper; // a DataMapper object
 }
