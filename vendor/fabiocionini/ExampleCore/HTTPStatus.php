@@ -10,7 +10,7 @@ namespace FabioCionini\ExampleCore;
 
 /**
  * Abstract Class HTTPStatus
- * Contains common HTTP statuses as constants, mimics an enum
+ * An utility class that contains common HTTP statuses as constants, mimics an enum
  * @package FabioCionini\ExampleCore
  */
 abstract class HTTPStatus {

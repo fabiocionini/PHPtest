@@ -18,6 +18,7 @@ use \FabioCionini\ExampleCore\BodyParser;
 use \FabioCionini\ExampleCore\URI;
 use \FabioCionini\ExampleCore\Views\JSONView;
 
+
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');
 $vendor_loader = new SplClassLoader('FabioCionini\\ExampleCore', 'vendor');
@@ -25,30 +26,30 @@ $vendor_loader->register();
 $app_loader = new SplClassLoader('app', '.');
 $app_loader->register();
 
+
 // create request object from received data
 // 1. parse URI
 $uri = new URI($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
 $request = new Request();
 $request->setAction($uri->getAction());
 error_log($uri->getAction());
-
 // 2. get request body
 $body_parser = new BodyParser();
 $body = @file_get_contents('php://input');
 $params = $body_parser->parse($body);
-
 // 3. add URI id to params, if present
 $id = $uri->getId();
 if ($id) $params['id'] = $id;
-
+// 4. finally, set request params
 $request->setParams($params);
 
 
-// create response object
+// create response object and set its view
 $response = new Response();
 $view = new JSONView();
 $response->setView($view);
 $response->addHeader($view->getHeader());
+
 
 // initialize router and set up routes
 $controllersNamespace = "\\app\\Controllers";
@@ -66,7 +67,8 @@ $dbConfig = include('app/Config/database.php');
 $connection = Database::connection($dbConfig);
 $dataMapper = new DataMapper($connection);
 
-// the dispatcher takes the route returned from the router and delivers it to the right controller
+
+// the dispatcher takes the route returned from the router and delivers it to the matching controller
 // it needs the data mapper to pass it to the controller
 $dispatcher = new Dispatcher($dataMapper);
 

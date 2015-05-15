@@ -11,6 +11,7 @@ use FabioCionini\ExampleCore\HTTPStatus;
 use FabioCionini\ExampleCore\ControllerInterface;
 use FabioCionini\ExampleCore\RequestInterface;
 use FabioCionini\ExampleCore\ResponseInterface;
+use FabioCionini\ExampleCore\Validator;
 
 use app\Models\Address;
 
@@ -24,7 +25,17 @@ use app\Models\Address;
 class AddressController implements ControllerInterface {
 
     private $mapper;
+    private $validator;
 
+    public function __construct() {
+        $this->validator = new Validator(Address::validation());
+    }
+
+    /**
+     * Sets the data mapper and customizes it
+     *
+     * @param DataMapper $mapper
+     */
     public function setMapper(DataMapper $mapper) {
         $this->mapper = $mapper;
         $this->mapper->setModel("\\app\\Models\\Address");
@@ -41,13 +52,18 @@ class AddressController implements ControllerInterface {
     public function create(RequestInterface $request, ResponseInterface $response)
     {
         $params = $request->getParams();
-        $new = new Address($params);
-        $saved = $this->mapper->insertOrUpdate($new);
-        if ($saved === true) {
-            $response->set($new, HTTPStatus::CREATED)->send();
+        if ($this->validator->validate($params)) {
+            $new = new Address($params);
+            $saved = $this->mapper->insertOrUpdate($new);
+            if ($saved === true) {
+                $response->set($new, HTTPStatus::CREATED)->send();
+            }
+            else {
+                $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+            }
         }
         else {
-            $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+            $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
         }
     }
 
