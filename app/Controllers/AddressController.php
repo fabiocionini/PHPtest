@@ -1,4 +1,4 @@
-<?php
+<?php namespace app\Controllers;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,13 +6,14 @@
  * Time: 17:35
  */
 
-namespace app\Controllers;
-
-use FabioCionini\ExampleCore\BaseController;
+use FabioCionini\ExampleCore\DataMapper;
 use FabioCionini\ExampleCore\HTTPStatus;
+use FabioCionini\ExampleCore\ControllerInterface;
+use FabioCionini\ExampleCore\RequestInterface;
+use FabioCionini\ExampleCore\ResponseInterface;
+use FabioCionini\ExampleCore\Validator;
+
 use app\Models\Address;
-use app\Views\AddressView;
-use app\Mappers\AddressMapper;
 
 /**
  * Class AddressController
@@ -21,105 +22,130 @@ use app\Mappers\AddressMapper;
  *
  * @package app\Controllers
  */
-class AddressController extends BaseController {
+class AddressController implements ControllerInterface {
+
+    private $mapper;
+    private $validator;
+
+    public function __construct() {
+        $this->validator = new Validator(Address::validation());
+    }
 
     /**
-     * Initializes the controller and creates a mapper object using the provided db connection
+     * Sets the data mapper and customizes it
      *
-     * @param \PDO $pdo
+     * @param DataMapper $mapper
      */
-    public function __construct(\PDO $pdo) {
-        $this->mapper = new AddressMapper($pdo);
+    public function setMapper(DataMapper $mapper) {
+        $this->mapper = $mapper;
+        $this->mapper->setModel("\\app\\Models\\Address");
+        $this->mapper->setPrimaryKey("id");
     }
 
     /**
      * Creates a new resource.
      *
-     * @param array $params
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
      * @return Object
      */
-
-    public function create($params)
+    public function create(RequestInterface $request, ResponseInterface $response)
     {
-        $new = new Address($params);
-        $saved = $this->mapper->insertOrUpdate($new);
-        if ($saved === true) {
-            AddressView::json($new, HTTPStatus::$CREATED);
+        $params = $request->getParams();
+        if ($this->validator->validate($params)) {
+            $new = new Address($params);
+            $saved = $this->mapper->insertOrUpdate($new);
+            if ($saved === true) {
+                $response->set($new, HTTPStatus::CREATED)->send();
+            }
+            else {
+                $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+            }
         }
         else {
-            AddressView::error($saved, HTTPStatus::$INTERNAL_SERVER_ERROR);
+            $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
         }
     }
 
-    public function index() {
-        AddressView::json($this->mapper->findAll());
+    public function index(RequestInterface $request, ResponseInterface $response) {
+        $response->set($this->mapper->findAll())->send();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
      * @return Object
      */
-    public function show($id)
+    public function show(RequestInterface $request, ResponseInterface $response)
     {
+        $params = $request->getParams();
+        $id = $params['id'];
         $address = $this->mapper->find($id);
         if ($address) {
-            AddressView::json($address);
+            $response->set($address)->send();
         }
         else {
-            AddressView::error(HTTPStatus::$NOT_FOUND, 'Item not found.');
+            $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
-     * @param array $params
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
      * @return Object
      */
-    public function update($id, $params)
+    public function update(RequestInterface $request, ResponseInterface $response)
     {
-        if (array_key_exists('id', $params)) {
-            AddressView::status(HTTPStatus::$BAD_REQUEST); // do not try to change record id when updating!
-        }
-        else {
-            $address = $this->mapper->find($id);
+        $params = $request->getParams();
+        if (!empty($params['id'])) {
+            $address = $this->mapper->find($params['id']);
             if ($address) {
-                $address->set($params);
-                $saved = $this->mapper->insertOrUpdate($address);
-                if ($saved === true) {
-                    AddressView::json($address);
+                if ($this->validator->validate($params, false)) {
+                    $address->set($params);
+                    $saved = $this->mapper->insertOrUpdate($address);
+                    if ($saved === true) {
+                        $response->set($address)->send();
+                    } else {
+                        $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+                    }
                 }
                 else {
-                    AddressView::error(HTTPStatus::$INTERNAL_SERVER_ERROR, $saved);
+                    $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
                 }
             }
             else {
-                AddressView::error(HTTPStatus::$NOT_FOUND);
+                $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
             }
+        }
+        else {
+            $response->set('Invalid request: id not specified.', HTTPStatus::BAD_REQUEST)->send();
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
      * @return Object
      */
-    public function destroy($id)
+    public function destroy(RequestInterface $request, ResponseInterface $response)
     {
-        if ($id) {
-            if ($this->mapper->delete($id)) {
-                AddressView::status(HTTPStatus::$OK, 'Resource successfully deleted.');
+        $params = $request->getParams();
+
+        if (!empty($params['id'])) {
+            if ($this->mapper->delete($params['id'])) {
+                $response->set('Resource successfully deleted.')->send();
             } else {
-                AddressView::error(HTTPStatus::$NOT_FOUND);
+                $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
             }
         }
         else {
-            AddressView::error(HTTPStatus::$BAD_REQUEST);
+            $response->set('Invalid request: id not specified.', HTTPStatus::BAD_REQUEST)->send();
         }
     }
-
 }

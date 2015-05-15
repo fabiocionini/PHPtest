@@ -1,4 +1,4 @@
-<?php
+<?php namespace FabioCionini\ExampleCore;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,26 +6,24 @@
  * Time: 17:32
  */
 
-namespace FabioCionini\ExampleCore;
-
 
 /**
- * Class BaseModel
- * An abstract, Active Record based class that handles an object lifecycle
- * Override $db_config to init database
+ * Class Model
+ * An abstract class that handles an object lifecycle
  *
  * @package FabioCionini\ExampleCore
  */
-abstract class BaseModel {
+abstract class Model {
 
     public $id;
 
     /**
-     * @param array $data
+     * @param array $data|null
      */
     public function __construct($data = null) {
         $this->set($data);
     }
+
     /**
      * Returns id and other public properties defined by model class
      * @return array

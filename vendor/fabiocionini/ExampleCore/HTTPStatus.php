@@ -9,22 +9,25 @@
 namespace FabioCionini\ExampleCore;
 
 /**
- * Class HTTPStatus
- * Contains common HTTP statuses as static properties
+ * Abstract Class HTTPStatus
+ * An utility class that contains common HTTP statuses as constants, mimics an enum
+ * This is very useful when using auto-complete enabled IDEs (such as PHPStorm) to insert mnemonic status codes
+ * instead of numbers
+ *
  * @package FabioCionini\ExampleCore
  */
-class HTTPStatus {
-    public static $OK = 200;
-    public static $CREATED = 201;
-    public static $ACCEPTED = 202;
-    public static $FOUND = 302;
-    public static $NOT_MODIFIED = 304;
-    public static $BAD_REQUEST = 400;
-    public static $UNAUTHORIZED = 401;
-    public static $FORBIDDEN = 403;
-    public static $NOT_FOUND = 404;
-    public static $INTERNAL_SERVER_ERROR = 500;
-    public static $BAD_GATEWAY = 502;
-    public static $SERVICE_UNAVAILABLE = 503;
-    public static $GATEWAY_TIMEOUT = 504;
+abstract class HTTPStatus {
+    const OK = 200;
+    const CREATED = 201;
+    const ACCEPTED = 202;
+    const FOUND = 302;
+    const NOT_MODIFIED = 304;
+    const BAD_REQUEST = 400;
+    const UNAUTHORIZED = 401;
+    const FORBIDDEN = 403;
+    const NOT_FOUND = 404;
+    const INTERNAL_SERVER_ERROR = 500;
+    const BAD_GATEWAY = 502;
+    const SERVICE_UNAVAILABLE = 503;
+    const GATEWAY_TIMEOUT = 504;
 }

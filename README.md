@@ -5,6 +5,16 @@ This application is a RESTful HTTP API based on example files (provided in /orig
 The original files set up a basic HTTP GET service to retrieve "address" records from a CSV file.
 This application achieves the same functionality but it has been designed and developed as a full MVC, RESTful HTTP API.
 
+## Latest improvements
+- Refactored most of the code using interfaces and trying to implement SOLID principles.
+- Classes are now light, low coupled and have single responsibility.
+- Router is now responsible only for finding the route for the request, then the route is handled by the Dispatcher
+- added Front Controller pattern for a single point of entry of the application.
+- added Dispatcher, Response, Route objects and related design patterns.
+- added a Validator that checks for required fields, data types and size against a config array provided by the model.
+- added other light objects to parse incoming requests (BodyParser and URI)
+- removed old and unused classes
+
 ## Main features
 
 - Model-View-Controller class structure
@@ -13,17 +23,14 @@ This application achieves the same functionality but it has been designed and de
 - Base abstract classes for models, views, controller
 - SQLite backed storage for maximum portability
 - Domain-Model-Mapper pattern for data objects
-- Configurable router class handling incoming requests and forwarding them to a controller class
+- Front Controller -> Router -> Dispatcher pattern
 - Full REST CRUD API (makes use of GET, POST, PUT, DELETE HTTP methods)
 - Architecture was designed for expandability and as a starting point for a bigger API application
 - Not using any external framework or library except for the included SplClassLoader.php (recommended PSR-0 autoload handler)
-
-## Latest improvements
 - Vendor-like structure for core classes
-- Database and routes configuration now are php arrays
-- Offloaded some logic from the Router: created a Request object that parses its own data
-- Added a Data Mapper object removing DB access from the model classes
-- Removed hardcoded namespace paths inside core classes
+
+
+
 
 ## Requirements
 PHP 5.5.x or better
@@ -57,9 +64,15 @@ Creates a new address.
 - string *address*
 - string *phone*
 
+All fields are currently required.
+**name** must be a string between 2 and 100 characters.
+**address** must be a string between 3 and 100 characters.
+**phone** must be a string between 5 and 20 characters.
+The validation settings are customizable in the Address model file.
+
 Parameters in the POST body request can be provided in URI encoded format or JSON.
 
-**Returns:** the newly created address object.
+**Returns:** the newly created address object or **400 Bad Request** if parameters are not valid.
 
 ### PUT /address/:id
 Updates an existing address specified by :id.
@@ -71,7 +84,7 @@ Updates an existing address specified by :id.
 
 Parameters in the PUT body request can be provided in URI encoded format or JSON.
 
-**Returns:** the updated object or **404 Not found** if record was not found.
+**Returns:** the updated object, **400 Bad Request** if parameters are not valid, **404 Not found** if record was not found.
 
 ### DELETE /address/:id
 Retrieves address record specified by :id.
@@ -84,5 +97,4 @@ Retrieves address record specified by :id.
 - Response Content-Type based on request Accept header
 - Support for PUT and DELETE through POST and GET alternative routes (for clients that do not support PUT/DELETE requests)
 - Better error and edge cases handling
-- Data validation in model
 - Improve Database to allow RDBMS portability (i.e. decouple db from model and implement a Database interface to abstract db queries)
