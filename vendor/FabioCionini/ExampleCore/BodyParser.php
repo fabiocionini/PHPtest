@@ -7,11 +7,17 @@
  */
 
 class BodyParser {
+    /**
+     * Parses an HTTP Request body into an array of parameters (supports both json and key=value formats)
+     *
+     * @param string $body
+     * @return array
+     */
     public function parse($body) {
         $params = [];
         if ($body) {
             // try if body data is json
-            $json_decoded = json_decode($body, true); // "true" gets array instead of object
+            $json_decoded = json_decode($body, true); // "true" gets an array instead of an object
             if ($json_decoded) {
                 $params = $json_decoded;
             }

@@ -9,6 +9,12 @@
 namespace FabioCionini\ExampleCore;
 
 
+/**
+ * Class Dispatcher
+ * The Dispatcher is responsible for executing the method on the controller that matched the route
+ *
+ * @package FabioCionini\ExampleCore
+ */
 class Dispatcher {
 
     private $mapper;
@@ -17,6 +23,14 @@ class Dispatcher {
         $this->mapper = $mapper;
     }
 
+    /**
+     * Given a route, creates the controller and executes the method on that controller,
+     * passing request and response objects
+     *
+     * @param Route $route
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     */
     public function dispatch(Route $route, RequestInterface $request, ResponseInterface $response) {
         $controllerClass = $route->getController();
         $method = $route->getMethod();
@@ -28,11 +42,11 @@ class Dispatcher {
                 $controller->$method($request, $response);
             }
             else {
-
+                $response->set('ERROR: cannot find the requested action for this resource.', HTTPStatus::BAD_REQUEST)->send();
             }
         }
         else {
-
+            $response->set('ERROR: cannot find the requested resource.', HTTPStatus::BAD_REQUEST)->send();
         }
     }
 }

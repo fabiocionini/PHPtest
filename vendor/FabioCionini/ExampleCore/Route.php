@@ -8,6 +8,12 @@
  */
 
 
+/**
+ * Class Route
+ * The route object contain infos for a request to be routed to a controller.
+ *
+ * @package FabioCionini\ExampleCore
+ */
 class Route implements RouteInterface {
 
     private $action;

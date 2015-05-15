@@ -8,12 +8,18 @@
 
 use FabioCionini\ExampleCore\ViewInterface;
 
+/**
+ * Class JSONView
+ *
+ * renders an array, an object or a string into a json object
+ * @package FabioCionini\ExampleCore\Views
+ */
 class JSONView implements ViewInterface {
 
     /**
      * Renders the content into a formatted output
      *
-     * @param $content
+     * @param mixed $content
      * @return string
      */
     public function render($content) {

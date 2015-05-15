@@ -9,6 +9,13 @@
 namespace FabioCionini\ExampleCore;
 
 
+/**
+ * Class FrontController
+ * The front controller is the single point of entry of the application and is responsible for passing the request
+ * to the router and then dispatch the obtained route.
+ *
+ * @package FabioCionini\ExampleCore
+ */
 class FrontController {
 
     public function __construct(Router $router, Dispatcher $dispatcher) {

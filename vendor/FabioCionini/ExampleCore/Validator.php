@@ -9,6 +9,13 @@
 namespace FabioCionini\ExampleCore;
 
 
+/**
+ * Class Validator
+ * Provides a validation method which checks for required fields, fields type and min/max length given a configuration array
+ * Also provides detailed errors if validation fails.
+ *
+ * @package FabioCionini\ExampleCore
+ */
 class Validator {
 
     private $fields;
@@ -70,7 +77,15 @@ class Validator {
         }
     }
 
+    /**
+     * Validates a parameter array against validation rules
+     * Returns true or false if valid or not
+     *
+     * @param $params
+     * @return bool
+     */
     public function validate($params) {
+        $this->errors = [];
         foreach ($this->fields as $field=>$properties) {
             error_log($field);
             if ($this->isRequired($field) && !isset($params[$field])) {
@@ -97,6 +112,11 @@ class Validator {
         $this->errors[] = $error;
     }
 
+    /**
+     * Returns all the error messages for the last validation
+     *
+     * @return array
+     */
     public function getErrors() {
         return $this->errors;
     }

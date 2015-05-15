@@ -7,8 +7,11 @@
  */
 
 
-
-
+/**
+ * Interface ControllerInterface
+ *
+ * @package FabioCionini\ExampleCore
+ */
 interface ControllerInterface {
     public function setMapper(DataMapper $mapper);
 }

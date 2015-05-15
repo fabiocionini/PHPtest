@@ -1,4 +1,4 @@
-<?php
+<?php namespace FabioCionini\ExampleCore;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,7 +6,6 @@
  * Time: 07:49
  */
 
-namespace FabioCionini\ExampleCore;
 
 /**
  * Class DataMapper
@@ -19,16 +18,27 @@ namespace FabioCionini\ExampleCore;
  *
  * @package FabioCionini\ExampleCore
  */
+
 class DataMapper {
     private $pdo;
     private $model;
     private $table;
     private $primaryKey;
 
+    /**
+     * Initializes the data mapper only with the PDO object
+     *
+     * @param \PDO $pdo
+     */
     public function __construct(\PDO $pdo) {
         $this->pdo = $pdo;
     }
 
+    /**
+     * Sets the model of the data mapper. Extracts table name from the model name.
+     *
+     * @param string $model
+     */
     public function setModel($model) {
         $this->model = $model;
         $this->table = end(explode("\\", $model));
@@ -40,6 +50,7 @@ class DataMapper {
 
     /**
      * Retrieves an object by its primary key, null if not found
+     *
      * @param $pk
      * @return Object|null
      */
@@ -57,6 +68,7 @@ class DataMapper {
 
     /**
      * Retrieves all objects, null if there are none
+     *
      * @return array|null
      */
     public function findAll() {
@@ -77,6 +89,7 @@ class DataMapper {
 
     /**
      * Deletes an object by primary key
+     *
      * @param $pk
      * @return bool
      */
@@ -88,6 +101,7 @@ class DataMapper {
     /**
      * Saves the object into DB storage (or updates it if it exists)
      * Returns true if success, otherwise returns the error
+     *
      * @param Model $object
      * @return bool|string
      */

@@ -19,6 +19,12 @@ class Response implements ResponseInterface {
     private $status;
     private $view;
 
+
+    /**
+     * This sets the render view for the response output. If not set, the response body will be sent out as-is.
+     *
+     * @param ViewInterface $view
+     */
     public function setView(ViewInterface $view) {
         $this->view = $view;
     }
@@ -35,6 +41,30 @@ class Response implements ResponseInterface {
         return $this;
     }
 
+    /**
+     * @param mixed $body
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * This sets both body and status in a single call (useful for one-line response outputs).
+     * Returns the response object itself (so it could be chained with send()).
+     *
+     * @param $body
+     * @param null $status
+     * @return $this
+     */
     public function set($body, $status = null) {
         if ($status === null) $status = 200;
         $this->status = $status;
@@ -42,6 +72,10 @@ class Response implements ResponseInterface {
         return $this;
     }
 
+    /**
+     * Sends out the response to the client.
+     * If set, it passes the body to the view to be rendered.
+     */
     public function send() {
         http_response_code($this->status);
         if (!headers_sent()) {

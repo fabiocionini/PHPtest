@@ -11,6 +11,9 @@ namespace FabioCionini\ExampleCore;
 /**
  * Abstract Class HTTPStatus
  * An utility class that contains common HTTP statuses as constants, mimics an enum
+ * This is very useful when using auto-complete enabled IDEs (such as PHPStorm) to insert mnemonic status codes
+ * instead of numbers
+ *
  * @package FabioCionini\ExampleCore
  */
 abstract class HTTPStatus {

@@ -18,7 +18,7 @@ abstract class Model {
     public $id;
 
     /**
-     * @param array $data
+     * @param array $data|null
      */
     public function __construct($data = null) {
         $this->set($data);
