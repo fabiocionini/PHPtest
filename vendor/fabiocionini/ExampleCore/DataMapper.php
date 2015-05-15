@@ -95,7 +95,8 @@ class DataMapper {
      */
     public function delete($pk) {
         $stmt = $this->pdo->prepare("DELETE FROM ".$this->table." WHERE ".$this->primaryKey." = ?");
-        return $stmt->execute([$pk]);
+        $stmt->execute([$pk]);
+        return $stmt->rowCount();
     }
 
     /**
@@ -123,7 +124,6 @@ class DataMapper {
             return true;
         }
         catch (\Exception $e) {
-            error_log('Caught exception while saving model instance of '.$this->table.': '.$e->getMessage());
             $error = $e->getMessage();
             return $error;
         }

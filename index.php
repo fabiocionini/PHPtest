@@ -32,14 +32,16 @@ $app_loader->register();
 $uri = new URI($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
 $request = new Request();
 $request->setAction($uri->getAction());
-error_log($uri->getAction());
+
 // 2. get request body
 $body_parser = new BodyParser();
 $body = @file_get_contents('php://input');
 $params = $body_parser->parse($body);
+
 // 3. add URI id to params, if present
 $id = $uri->getId();
 if ($id) $params['id'] = $id;
+
 // 4. finally, set request params
 $request->setParams($params);
 

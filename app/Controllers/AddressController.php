@@ -104,13 +104,17 @@ class AddressController implements ControllerInterface {
         if (!empty($params['id'])) {
             $address = $this->mapper->find($params['id']);
             if ($address) {
-                $address->set($params);
-                $saved = $this->mapper->insertOrUpdate($address);
-                if ($saved === true) {
-                    $response->set($address)->send();
+                if ($this->validator->validate($params, false)) {
+                    $address->set($params);
+                    $saved = $this->mapper->insertOrUpdate($address);
+                    if ($saved === true) {
+                        $response->set($address)->send();
+                    } else {
+                        $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+                    }
                 }
                 else {
-                    $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+                    $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
                 }
             }
             else {

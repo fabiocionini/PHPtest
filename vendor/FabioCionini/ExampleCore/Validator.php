@@ -80,26 +80,29 @@ class Validator {
     /**
      * Validates a parameter array against validation rules
      * Returns true or false if valid or not
+     * checkRequired can be set to false to avoid checking for required items when updating only some parameters of an existing record
      *
      * @param $params
+     * @param bool $checkRequired
      * @return bool
      */
-    public function validate($params) {
+    public function validate($params, $checkRequired = true) {
         $this->errors = [];
         foreach ($this->fields as $field=>$properties) {
-            error_log($field);
-            if ($this->isRequired($field) && !isset($params[$field])) {
+            if ($checkRequired && $this->isRequired($field) && !isset($params[$field])) {
                 $this->addError("Field '".$field."' is required.");
             }
             else {
-                if (!$this->checkType($field, $params[$field])) {
-                    $this->addError("Field '".$field."' must be of type ".$properties['type'].".");
-                }
-                if (!$this->checkMinLength($field, $params[$field])) {
-                    $this->addError("Field '".$field."' length must be at least ".$properties['min_length']." characters.");
-                }
-                if (!$this->checkMaxLength($field, $params[$field])) {
-                    $this->addError("Field '".$field."' length must be no more than ".$properties['max_length']." characters.");
+                if (isset($params[$field])) {
+                    if (!$this->checkType($field, $params[$field])) {
+                        $this->addError("Field '" . $field . "' must be of type " . $properties['type'] . ".");
+                    }
+                    if (!$this->checkMinLength($field, $params[$field])) {
+                        $this->addError("Field '" . $field . "' length must be at least " . $properties['min_length'] . " characters.");
+                    }
+                    if (!$this->checkMaxLength($field, $params[$field])) {
+                        $this->addError("Field '" . $field . "' length must be no more than " . $properties['max_length'] . " characters.");
+                    }
                 }
             }
         }
