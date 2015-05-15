@@ -1,4 +1,4 @@
-<?php
+<?php namespace app\Models;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,16 +6,16 @@
  * Time: 17:36
  */
 
-namespace app\Models;
 
-use FabioCionini\ExampleCore\BaseModel;
+
+use FabioCionini\ExampleCore\Model;
 
 /**
  * Class Address
  * extends base model providing object properties (map 1:1 with DB)
  * @package app\Models
  */
-class Address extends BaseModel {
+class Address extends Model {
     public $name;
     public $phone;
     public $street;

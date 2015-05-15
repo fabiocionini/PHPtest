@@ -1,18 +1,15 @@
-<?php
+<?php namespace FabioCionini\ExampleCore;
 /**
- * Created by PhpStorm.
- * User: fabio
+ * @author Fabio Cionini <fabio.cionini@gmail.com>
+ *
  * Date: 17/04/15
  * Time: 10:42
  */
 
-namespace FabioCionini\ExampleCore;
-
-
 /**
  * Class Database
  *
- * provides a database singleton object
+ * provides a database connection object (PDO)
  * available drivers: SQLite
  *
  * @package FabioCionini\ExampleCore
