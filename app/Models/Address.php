@@ -8,8 +8,8 @@
 
 
 
-use FabioCionini\ExampleCore\Model;
-use FabioCionini\ExampleCore\ModelInterface;
+use FabioCionini\ExampleCore\Model\Model;
+use FabioCionini\ExampleCore\Model\ModelInterface;
 
 /**
  * Class Address

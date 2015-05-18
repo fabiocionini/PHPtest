@@ -6,12 +6,12 @@
  * Time: 17:35
  */
 
-use FabioCionini\ExampleCore\DataMapper;
-use FabioCionini\ExampleCore\Response;
-use FabioCionini\ExampleCore\ControllerInterface;
-use FabioCionini\ExampleCore\RequestInterface;
-use FabioCionini\ExampleCore\ResponseInterface;
-use FabioCionini\ExampleCore\Validator;
+use FabioCionini\ExampleCore\Database\DataMapper;
+use FabioCionini\ExampleCore\Response\Response;
+use FabioCionini\ExampleCore\Controller\ControllerInterface;
+use FabioCionini\ExampleCore\Request\RequestInterface;
+use FabioCionini\ExampleCore\Response\ResponseInterface;
+use FabioCionini\ExampleCore\Validation\Validator;
 
 use app\Models\Address;
 

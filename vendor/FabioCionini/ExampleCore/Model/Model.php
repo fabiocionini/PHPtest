@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore;
+<?php namespace FabioCionini\ExampleCore\Model;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -11,7 +11,7 @@
  * Class Model
  * An abstract class that handles an object lifecycle
  *
- * @package FabioCionini\ExampleCore
+ * @package FabioCionini\ExampleCore|Model
  */
 abstract class Model {
 

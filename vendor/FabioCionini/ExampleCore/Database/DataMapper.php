@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore;
+<?php namespace FabioCionini\ExampleCore\Database;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,6 +6,7 @@
  * Time: 07:49
  */
 
+use FabioCionini\ExampleCore\Model\Model;
 
 /**
  * Class DataMapper
@@ -16,7 +17,7 @@
  * they need no SQL interface code, and certainly no knowledge of the database schema."
  * http://martinfowler.com/eaaCatalog/dataMapper.html
  *
- * @package FabioCionini\ExampleCore
+ * @package FabioCionini\ExampleCore\Database
  */
 
 class DataMapper {

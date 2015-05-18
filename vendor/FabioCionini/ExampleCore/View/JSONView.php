@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore\Views;
+<?php namespace FabioCionini\ExampleCore\View;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,13 +6,11 @@
  * Time: 01:10
  */
 
-use FabioCionini\ExampleCore\ViewInterface;
-
 /**
  * Class JSONView
  *
  * renders an array, an object or a string into a json object
- * @package FabioCionini\ExampleCore\Views
+ * @package FabioCionini\ExampleCore\View
  */
 class JSONView implements ViewInterface {
 

@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore;
+<?php namespace FabioCionini\ExampleCore\Response;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,6 +6,7 @@
  * Time: 11:59
  */
 
+use FabioCionini\ExampleCore\View\ViewInterface;
 
 /**
  * Class Response

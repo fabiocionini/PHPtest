@@ -1,4 +1,4 @@
-<?php
+<?php namespace FabioCionini\ExampleCore\Routing;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,8 +6,10 @@
  * Time: 12:31
  */
 
-namespace FabioCionini\ExampleCore;
-
+use FabioCionini\ExampleCore\Database\DataMapper;
+use FabioCionini\ExampleCore\Request\RequestInterface;
+use FabioCionini\ExampleCore\Response\ResponseInterface;
+use FabioCionini\ExampleCore\Response\Response;
 
 /**
  * Class Dispatcher
@@ -42,11 +44,11 @@ class Dispatcher {
                 $controller->$method($request, $response);
             }
             else {
-                $response->set('ERROR: cannot find the requested action for this resource.', HTTPStatus::BAD_REQUEST)->send();
+                $response->set('ERROR: cannot find the requested action for this resource.', Response::BAD_REQUEST)->send();
             }
         }
         else {
-            $response->set('ERROR: cannot find the requested resource.', HTTPStatus::BAD_REQUEST)->send();
+            $response->set('ERROR: cannot find the requested resource.', Response::BAD_REQUEST)->send();
         }
     }
 }

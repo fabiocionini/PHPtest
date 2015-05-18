@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore;
+<?php namespace FabioCionini\ExampleCore\Model;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -15,5 +15,4 @@ interface ModelInterface {
      *
      * @return array
      */
-    public static function validation();
 }

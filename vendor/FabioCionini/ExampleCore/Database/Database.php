@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore;
+<?php namespace FabioCionini\ExampleCore\Database;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -12,7 +12,7 @@
  * provides a database connection object (PDO)
  * available drivers: SQLite
  *
- * @package FabioCionini\ExampleCore
+ * @package FabioCionini\ExampleCore\Database
  */
 class Database {
 

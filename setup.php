@@ -6,7 +6,7 @@
  * Time: 15:20
  */
 
-use \FabioCionini\ExampleCore\Database;
+use \FabioCionini\ExampleCore\Database\Database;
 
 // autoload classes (PSR-0)
 require_once('SplClassLoader.php');

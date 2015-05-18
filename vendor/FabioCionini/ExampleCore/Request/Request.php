@@ -1,12 +1,10 @@
-<?php
+<?php namespace FabioCionini\ExampleCore\Request;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
  * Date: 19/04/15
  * Time: 15:22
  */
-
-namespace FabioCionini\ExampleCore;
 
 
 /**
@@ -15,7 +13,6 @@ namespace FabioCionini\ExampleCore;
  *
  * @package FabioCionini\ExampleCore
  */
-
 class Request implements RequestInterface {
 
     private $action;

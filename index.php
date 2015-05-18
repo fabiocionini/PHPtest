@@ -6,17 +6,15 @@
  * Time: 16:17
  */
 
-use \FabioCionini\ExampleCore\FrontController;
-use \FabioCionini\ExampleCore\Router;
-use \FabioCionini\ExampleCore\Route;
-use \FabioCionini\ExampleCore\Dispatcher;
-use \FabioCionini\ExampleCore\DataMapper;
-use \FabioCionini\ExampleCore\Database;
-use \FabioCionini\ExampleCore\Request;
-use \FabioCionini\ExampleCore\Response;
-use \FabioCionini\ExampleCore\BodyParser;
-use \FabioCionini\ExampleCore\URI;
-use \FabioCionini\ExampleCore\Views\JSONView;
+use \FabioCionini\ExampleCore\FrontController\FrontController;
+use \FabioCionini\ExampleCore\Routing\Router;
+use \FabioCionini\ExampleCore\Routing\Route;
+use \FabioCionini\ExampleCore\Routing\Dispatcher;
+use \FabioCionini\ExampleCore\Database\DataMapper;
+use \FabioCionini\ExampleCore\Database\Database;
+use \FabioCionini\ExampleCore\Request\Request;
+use \FabioCionini\ExampleCore\Response\Response;
+use \FabioCionini\ExampleCore\View\JSONView;
 
 
 // autoload classes (PSR-0)

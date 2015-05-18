@@ -1,4 +1,4 @@
-<?php
+<?php namespace FabioCionini\ExampleCore\Routing;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,8 +6,7 @@
  * Time: 13:32
  */
 
-namespace FabioCionini\ExampleCore;
-
+use FabioCionini\ExampleCore\Request\RequestInterface;
 
 interface RouteInterface {
     public function match(RequestInterface $request);
