@@ -1,22 +1,12 @@
 # PHPtest Example
+## Version 1.0.3
 
 ## Description
 This application is a RESTful HTTP API based on example files (provided in /original directory).
 The original files set up a basic HTTP GET service to retrieve "address" records from a CSV file.
 This application achieves the same functionality but it has been designed and developed as a full MVC, RESTful HTTP API.
 
-## Latest improvements
-- Refactored most of the code using interfaces and trying to implement SOLID principles.
-- Classes are now light, low coupled and have single responsibility.
-- Router is now responsible only for finding the route for the request, then the route is handled by the Dispatcher
-- added Front Controller pattern for a single point of entry of the application.
-- added Dispatcher, Response, Route objects and related design patterns.
-- added a Validator that checks for required fields, data types and size against a config array provided by the model.
-- added other light objects to parse incoming requests (BodyParser and URI)
-- removed old and unused classes
-
 ## Main features
-
 - Model-View-Controller class structure
 - Namespaces
 - PSR-0 class autoloading
@@ -30,11 +20,10 @@ This application achieves the same functionality but it has been designed and de
 - Vendor-like structure for core classes
 
 
-
-
 ## Requirements
 PHP 5.5.x or better
 SQLite3 (included with PHP >= 5.4.x)
+
 
 ## Installation and usage
 Should be compatible with major web servers.
@@ -92,9 +81,41 @@ Retrieves address record specified by :id.
 **Returns:** a **200 OK** status or a **404 Not found** if record was not found.
 
 
+## Version history
+
+### 1.0.3
+- Refactored namespaces grouping classes by function
+- Compacted logic of old URI and BodyParser classes into Request class
+- HTTPStatus constants moved into the Response class
+- removed "ghost" vendor subfolder
+- Better SOLID compliance
+
+### 1.0.2
+- Refactored most of the code using interfaces and trying to implement SOLID principles.
+- Classes are now light, low coupled and have single responsibility.
+- Router is now responsible only for finding the route for the request, then the route is handled by the Dispatcher
+- added Front Controller pattern for a single point of entry of the application.
+- added Dispatcher, Response, Route objects and related design patterns.
+- added a Validator that checks for required fields, data types and size against a config array provided by the model.
+- added other light objects to parse incoming requests (BodyParser and URI)
+- removed old and unused classes
+
+### 1.0.1
+- Add vendor-like structure for core classes
+- Database and routes configuration now are php arrays
+- Offloaded some logic from the Router: created a Request object that parses its own data
+- Added a Data Mapper object removing DB access from the model classes
+- hardcoded namespace paths inside core classes
+
+### 1.0
+- Initial release
+- MVC structure
+- Base abstract classes for models, views, controller
+- Active Record pattern for models
+- Configurable router class handling incoming requests and forwarding them to a controller class
+
+
 ## Possible improvements
 - Unit Tests!
 - Response Content-Type based on request Accept header
 - Support for PUT and DELETE through POST and GET alternative routes (for clients that do not support PUT/DELETE requests)
-- Better error and edge cases handling
-- Improve Database to allow RDBMS portability (i.e. decouple db from model and implement a Database interface to abstract db queries)
