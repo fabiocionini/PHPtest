@@ -21,6 +21,50 @@ class Request implements RequestInterface {
     private $action;
     private $params;
 
+    public function __construct($method, $uri, $body) {
+        // create action and id from HTTP request uri and method
+        $path = ltrim($uri, '/');
+        $path_elements = explode('/', $path);
+        $id = null;
+        if (count($path_elements) > 1) {
+            // more than one element, last element should be a parameter (id)
+            end($path_elements);
+            $key = key($path_elements);
+            $id = $path_elements[$key];
+            $path_elements[$key] = ':id';
+        }
+
+        // re-create pattern from path to be matched with routes settings
+        $this->action = $method . ' /' . implode('/', $path_elements);
+
+        // parse body request into params
+        $this->params = $this->parseBody($body);
+        if ($id) $this->params['id'] = $id;
+    }
+
+    /**
+     * Parses an HTTP Request body into an array of parameters (supports both json and key=value formats)
+     *
+     * @param string $body
+     * @return array
+     */
+    private function parseBody($body) {
+        $params = [];
+        if ($body) {
+            // try if body data is json
+            $json_decoded = json_decode($body, true); // "true" gets an array instead of an object
+            if ($json_decoded) {
+                $params = $json_decoded;
+            }
+            else {
+                // if not json, parse as key=value
+                parse_str($body, $params);
+            }
+        }
+
+        return $params;
+    }
+
     public function setAction($action) {
         $this->action = $action;
     }
