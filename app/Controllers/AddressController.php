@@ -7,7 +7,7 @@
  */
 
 use FabioCionini\ExampleCore\DataMapper;
-use FabioCionini\ExampleCore\HTTPStatus;
+use FabioCionini\ExampleCore\Response;
 use FabioCionini\ExampleCore\ControllerInterface;
 use FabioCionini\ExampleCore\RequestInterface;
 use FabioCionini\ExampleCore\ResponseInterface;
@@ -56,14 +56,14 @@ class AddressController implements ControllerInterface {
             $new = new Address($params);
             $saved = $this->mapper->insertOrUpdate($new);
             if ($saved === true) {
-                $response->set($new, HTTPStatus::CREATED)->send();
+                $response->set($new, Response::CREATED)->send();
             }
             else {
-                $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+                $response->set($saved, Response::INTERNAL_SERVER_ERROR)->send();
             }
         }
         else {
-            $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
+            $response->set(['Errors'=>$this->validator->getErrors()], Response::BAD_REQUEST)->send();
         }
     }
 
@@ -87,7 +87,7 @@ class AddressController implements ControllerInterface {
             $response->set($address)->send();
         }
         else {
-            $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
+            $response->set('Item not found.', Response::NOT_FOUND)->send();
         }
     }
 
@@ -110,19 +110,19 @@ class AddressController implements ControllerInterface {
                     if ($saved === true) {
                         $response->set($address)->send();
                     } else {
-                        $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+                        $response->set($saved, Response::INTERNAL_SERVER_ERROR)->send();
                     }
                 }
                 else {
-                    $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
+                    $response->set(['Errors'=>$this->validator->getErrors()], Response::BAD_REQUEST)->send();
                 }
             }
             else {
-                $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
+                $response->set('Item not found.', Response::NOT_FOUND)->send();
             }
         }
         else {
-            $response->set('Invalid request: id not specified.', HTTPStatus::BAD_REQUEST)->send();
+            $response->set('Invalid request: id not specified.', Response::BAD_REQUEST)->send();
         }
     }
 
@@ -141,11 +141,11 @@ class AddressController implements ControllerInterface {
             if ($this->mapper->delete($params['id'])) {
                 $response->set('Resource successfully deleted.')->send();
             } else {
-                $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
+                $response->set('Item not found.', Response::NOT_FOUND)->send();
             }
         }
         else {
-            $response->set('Invalid request: id not specified.', HTTPStatus::BAD_REQUEST)->send();
+            $response->set('Invalid request: id not specified.', Response::BAD_REQUEST)->send();
         }
     }
 }
