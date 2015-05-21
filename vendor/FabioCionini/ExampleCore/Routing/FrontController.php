@@ -26,6 +26,11 @@ class FrontController {
 
     public function run(RequestInterface $request, ResponseInterface $response) {
         $route = $this->router->route($request);
-        $this->dispatcher->dispatch($route, $request, $response);
+        if ($route) {
+            $this->dispatcher->dispatch($route, $request, $response);
+        }
+        else {
+            $response->set("Invalid request", 400)->send();
+        }
     }
 }
