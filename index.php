@@ -6,7 +6,7 @@
  * Time: 16:17
  */
 
-use \FabioCionini\ExampleCore\FrontController\FrontController;
+use \FabioCionini\ExampleCore\Routing\FrontController;
 use \FabioCionini\ExampleCore\Routing\Router;
 use \FabioCionini\ExampleCore\Routing\Route;
 use \FabioCionini\ExampleCore\Routing\Dispatcher;

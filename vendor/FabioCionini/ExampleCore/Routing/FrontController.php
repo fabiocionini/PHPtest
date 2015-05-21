@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore\FrontController;
+<?php namespace FabioCionini\ExampleCore\Routing;
 
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
@@ -7,9 +7,6 @@
  * Time: 12:44
  */
 
-
-use FabioCionini\ExampleCore\Routing\Router;
-use FabioCionini\ExampleCore\Routing\Dispatcher;
 use FabioCionini\ExampleCore\Request\RequestInterface;
 use FabioCionini\ExampleCore\Response\ResponseInterface;
 
