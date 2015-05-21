@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore;
+<?php namespace FabioCionini\ExampleCore\Routing;
 
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
@@ -7,6 +7,7 @@
  * Time: 09:45
  */
 
+use FabioCionini\ExampleCore\Request\RequestInterface;
 
 /**
  * Class Route

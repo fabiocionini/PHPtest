@@ -1,4 +1,4 @@
-<?php
+<?php namespace FabioCionini\ExampleCore\Routing;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,8 +6,10 @@
  * Time: 12:31
  */
 
-namespace FabioCionini\ExampleCore;
-
+use FabioCionini\ExampleCore\Persistence\MapperInterface;
+use FabioCionini\ExampleCore\Request\RequestInterface;
+use FabioCionini\ExampleCore\Response\ResponseInterface;
+use FabioCionini\ExampleCore\Response\Response;
 
 /**
  * Class Dispatcher
@@ -19,7 +21,7 @@ class Dispatcher {
 
     private $mapper;
 
-    public function __construct(DataMapper $mapper) {
+    public function __construct(MapperInterface $mapper) {
         $this->mapper = $mapper;
     }
 
@@ -37,16 +39,16 @@ class Dispatcher {
 
         if (class_exists($controllerClass)) {
             $controller = new $controllerClass();
+            $controller->setMapper($this->mapper);
             if (method_exists($controller, $method)) {
-                $controller->setMapper($this->mapper);
                 $controller->$method($request, $response);
             }
             else {
-                $response->set('ERROR: cannot find the requested action for this resource.', HTTPStatus::BAD_REQUEST)->send();
+                $response->set('ERROR: cannot find the requested action for this resource.', Response::BAD_REQUEST)->send();
             }
         }
         else {
-            $response->set('ERROR: cannot find the requested resource.', HTTPStatus::BAD_REQUEST)->send();
+            $response->set('ERROR: cannot find the requested resource.', Response::BAD_REQUEST)->send();
         }
     }
 }

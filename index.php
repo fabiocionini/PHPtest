@@ -6,17 +6,14 @@
  * Time: 16:17
  */
 
-use \FabioCionini\ExampleCore\FrontController;
-use \FabioCionini\ExampleCore\Router;
-use \FabioCionini\ExampleCore\Route;
-use \FabioCionini\ExampleCore\Dispatcher;
-use \FabioCionini\ExampleCore\DataMapper;
-use \FabioCionini\ExampleCore\Database;
-use \FabioCionini\ExampleCore\Request;
-use \FabioCionini\ExampleCore\Response;
-use \FabioCionini\ExampleCore\BodyParser;
-use \FabioCionini\ExampleCore\URI;
-use \FabioCionini\ExampleCore\Views\JSONView;
+use \FabioCionini\ExampleCore\Routing\FrontController;
+use \FabioCionini\ExampleCore\Routing\Router;
+use \FabioCionini\ExampleCore\Routing\Route;
+use \FabioCionini\ExampleCore\Routing\Dispatcher;
+use \FabioCionini\ExampleCore\Persistence\SQLiteDataMapper;
+use \FabioCionini\ExampleCore\Request\Request;
+use \FabioCionini\ExampleCore\Response\Response;
+use \FabioCionini\ExampleCore\View\JSONView;
 
 
 // autoload classes (PSR-0)
@@ -27,26 +24,11 @@ $app_loader = new SplClassLoader('app', '.');
 $app_loader->register();
 
 
-// create request object from received data
-// 1. parse URI
-$uri = new URI($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO']);
-$request = new Request();
-$request->setAction($uri->getAction());
-
-// 2. get request body
-$body_parser = new BodyParser();
+// create request object from received data (method, path, body)
 $body = @file_get_contents('php://input');
-$params = $body_parser->parse($body);
+$request = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO'], $body);
 
-// 3. add URI id to params, if present
-$id = $uri->getId();
-if ($id) $params['id'] = $id;
-
-// 4. finally, set request params
-$request->setParams($params);
-
-
-// create response object and set its view
+// create response object and set its output view
 $response = new Response();
 $view = new JSONView();
 $response->setView($view);
@@ -65,9 +47,10 @@ foreach($routesConfig as $action=>$call) {
 
 
 // initialize db connection and data mapper
-$dbConfig = include('app/Config/database.php');
-$connection = Database::connection($dbConfig);
-$dataMapper = new DataMapper($connection);
+$config = include('app/Config/config.php');
+$connection = new \PDO('sqlite:'.$config['database']['sqliteConnection']['filename']);
+$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+$dataMapper = new SQLiteDataMapper($connection);
 
 
 // the dispatcher takes the route returned from the router and delivers it to the matching controller

@@ -1,4 +1,4 @@
-<?php
+<?php namespace FabioCionini\ExampleCore\Response;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,7 +6,7 @@
  * Time: 09:45
  */
 
-namespace FabioCionini\ExampleCore;
+
 
 
 interface ResponseInterface {

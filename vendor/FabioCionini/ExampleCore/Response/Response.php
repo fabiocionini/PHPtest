@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore;
+<?php namespace FabioCionini\ExampleCore\Response;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,6 +6,7 @@
  * Time: 11:59
  */
 
+use FabioCionini\ExampleCore\View\ViewInterface;
 
 /**
  * Class Response
@@ -18,6 +19,20 @@ class Response implements ResponseInterface {
     private $body;
     private $status;
     private $view;
+
+    const OK = 200;
+    const CREATED = 201;
+    const ACCEPTED = 202;
+    const FOUND = 302;
+    const NOT_MODIFIED = 304;
+    const BAD_REQUEST = 400;
+    const UNAUTHORIZED = 401;
+    const FORBIDDEN = 403;
+    const NOT_FOUND = 404;
+    const INTERNAL_SERVER_ERROR = 500;
+    const BAD_GATEWAY = 502;
+    const SERVICE_UNAVAILABLE = 503;
+    const GATEWAY_TIMEOUT = 504;
 
 
     /**

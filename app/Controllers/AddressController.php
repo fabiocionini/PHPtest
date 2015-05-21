@@ -6,12 +6,12 @@
  * Time: 17:35
  */
 
-use FabioCionini\ExampleCore\DataMapper;
-use FabioCionini\ExampleCore\HTTPStatus;
-use FabioCionini\ExampleCore\ControllerInterface;
-use FabioCionini\ExampleCore\RequestInterface;
-use FabioCionini\ExampleCore\ResponseInterface;
-use FabioCionini\ExampleCore\Validator;
+use FabioCionini\ExampleCore\Persistence\MapperInterface;
+use FabioCionini\ExampleCore\Response\Response;
+use FabioCionini\ExampleCore\Controller\ControllerInterface;
+use FabioCionini\ExampleCore\Request\RequestInterface;
+use FabioCionini\ExampleCore\Response\ResponseInterface;
+use FabioCionini\ExampleCore\Validation\Validator;
 
 use app\Models\Address;
 
@@ -25,18 +25,13 @@ use app\Models\Address;
 class AddressController implements ControllerInterface {
 
     private $mapper;
-    private $validator;
-
-    public function __construct() {
-        $this->validator = new Validator(Address::validation());
-    }
 
     /**
      * Sets the data mapper and customizes it
      *
-     * @param DataMapper $mapper
+     * @param MapperInterface $mapper
      */
-    public function setMapper(DataMapper $mapper) {
+    public function setMapper(MapperInterface $mapper) {
         $this->mapper = $mapper;
         $this->mapper->setModel("\\app\\Models\\Address");
         $this->mapper->setPrimaryKey("id");
@@ -51,19 +46,21 @@ class AddressController implements ControllerInterface {
      */
     public function create(RequestInterface $request, ResponseInterface $response)
     {
+        $address = new Address();
+        $validator = new Validator($address);
         $params = $request->getParams();
-        if ($this->validator->validate($params)) {
-            $new = new Address($params);
-            $saved = $this->mapper->insertOrUpdate($new);
+        if ($validator->validate($params)) {
+            $address->set($params);
+            $saved = $this->mapper->insertOrUpdate($address);
             if ($saved === true) {
-                $response->set($new, HTTPStatus::CREATED)->send();
+                $response->set($address, Response::CREATED)->send();
             }
             else {
-                $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+                $response->set($saved, Response::INTERNAL_SERVER_ERROR)->send();
             }
         }
         else {
-            $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
+            $response->set(['Errors'=>$validator->getErrors()], Response::BAD_REQUEST)->send();
         }
     }
 
@@ -87,7 +84,7 @@ class AddressController implements ControllerInterface {
             $response->set($address)->send();
         }
         else {
-            $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
+            $response->set('Item not found.', Response::NOT_FOUND)->send();
         }
     }
 
@@ -100,29 +97,31 @@ class AddressController implements ControllerInterface {
      */
     public function update(RequestInterface $request, ResponseInterface $response)
     {
+        $address = new Address();
+        $validator = new Validator($address);
         $params = $request->getParams();
         if (!empty($params['id'])) {
             $address = $this->mapper->find($params['id']);
             if ($address) {
-                if ($this->validator->validate($params, false)) {
+                if ($validator->validate($params, false)) {
                     $address->set($params);
                     $saved = $this->mapper->insertOrUpdate($address);
                     if ($saved === true) {
                         $response->set($address)->send();
                     } else {
-                        $response->set($saved, HTTPStatus::INTERNAL_SERVER_ERROR)->send();
+                        $response->set($saved, Response::INTERNAL_SERVER_ERROR)->send();
                     }
                 }
                 else {
-                    $response->set(['Errors'=>$this->validator->getErrors()], HTTPStatus::BAD_REQUEST)->send();
+                    $response->set(['Errors'=>$validator->getErrors()], Response::BAD_REQUEST)->send();
                 }
             }
             else {
-                $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
+                $response->set('Item not found.', Response::NOT_FOUND)->send();
             }
         }
         else {
-            $response->set('Invalid request: id not specified.', HTTPStatus::BAD_REQUEST)->send();
+            $response->set('Invalid request: id not specified.', Response::BAD_REQUEST)->send();
         }
     }
 
@@ -141,11 +140,11 @@ class AddressController implements ControllerInterface {
             if ($this->mapper->delete($params['id'])) {
                 $response->set('Resource successfully deleted.')->send();
             } else {
-                $response->set('Item not found.', HTTPStatus::NOT_FOUND)->send();
+                $response->set('Item not found.', Response::NOT_FOUND)->send();
             }
         }
         else {
-            $response->set('Invalid request: id not specified.', HTTPStatus::BAD_REQUEST)->send();
+            $response->set('Invalid request: id not specified.', Response::BAD_REQUEST)->send();
         }
     }
 }
