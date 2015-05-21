@@ -88,7 +88,8 @@ Retrieves address record specified by :id.
 - Compacted logic of old URI and BodyParser classes into Request class
 - HTTPStatus constants moved into the Response class
 - removed "ghost" vendor subfolder
-- Better SOLID compliance
+- abstracted part of the DataMapper object and created a more specific SQLiteDataMapper tied to SQLite
+- Better SOLID compliance through refactoring of DataMapper and Validator (use of ISP and DIP) adding Validatable, MapperInterface, MappableObject interfaces
 
 ### 1.0.2
 - Refactored most of the code using interfaces and trying to implement SOLID principles.
