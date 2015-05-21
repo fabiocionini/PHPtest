@@ -10,7 +10,7 @@ use \FabioCionini\ExampleCore\Routing\FrontController;
 use \FabioCionini\ExampleCore\Routing\Router;
 use \FabioCionini\ExampleCore\Routing\Route;
 use \FabioCionini\ExampleCore\Routing\Dispatcher;
-use \FabioCionini\ExampleCore\Database\DataMapper;
+use \FabioCionini\ExampleCore\Persistence\SQLiteDataMapper;
 use \FabioCionini\ExampleCore\Request\Request;
 use \FabioCionini\ExampleCore\Response\Response;
 use \FabioCionini\ExampleCore\View\JSONView;
@@ -50,7 +50,7 @@ foreach($routesConfig as $action=>$call) {
 $config = include('app/Config/config.php');
 $connection = new \PDO('sqlite:'.$config['database']['sqliteConnection']['filename']);
 $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-$dataMapper = new DataMapper($connection);
+$dataMapper = new SQLiteDataMapper($connection);
 
 
 // the dispatcher takes the route returned from the router and delivers it to the matching controller

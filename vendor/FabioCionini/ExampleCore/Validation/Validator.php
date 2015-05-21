@@ -20,11 +20,22 @@ class Validator {
     private $fields;
     private $errors = [];
 
-    public function __construct(array $fields) {
-        $this->fields = $fields;
+    /**
+     * Creates the object getting fields from a model that implements Validatable interface
+     *
+     * @param Validatable $model
+     */
+    public function __construct(Validatable $model) {
+        $this->fields = $model->validation();
     }
 
-    public function isRequired($field) {
+    /**
+     * Check if a field is required
+     *
+     * @param $field
+     * @return bool
+     */
+    private function isRequired($field) {
         if (isset($this->fields[$field]['required'])) {
             return $this->fields[$field]['required'];
         }
@@ -33,7 +44,14 @@ class Validator {
         }
     }
 
-    public function checkType($field, $value) {
+    /**
+     * Check value type
+     *
+     * @param $field
+     * @param $value
+     * @return bool
+     */
+    private function checkType($field, $value) {
         if (isset($this->fields[$field]['type'])) {
             switch ($this->fields[$field]['type']) {
                 case 'string':
@@ -58,7 +76,14 @@ class Validator {
         }
     }
 
-    public function checkMinLength($field, $value) {
+    /**
+     * Check minimum length of the value
+     *
+     * @param $field
+     * @param $value
+     * @return bool
+     */
+    private function checkMinLength($field, $value) {
         if (isset($this->fields[$field]['min_length'])) {
             return strlen($value) >= $this->fields[$field]['min_length'];
         }
@@ -67,13 +92,29 @@ class Validator {
         }
     }
 
-    public function checkMaxLength($field, $value) {
+    /**
+     * Check maximum length of the field
+     *
+     * @param $field
+     * @param $value
+     * @return bool
+     */
+    private function checkMaxLength($field, $value) {
         if (isset($this->fields[$field]['max_length'])) {
             return strlen($value) <= $this->fields[$field]['max_length'];
         }
         else {
             return true;
         }
+    }
+
+    /**
+     * Adds an error to the current errors array
+     *
+     * @param $error
+     */
+    private function addError($error) {
+        $this->errors[] = $error;
     }
 
     /**
@@ -108,10 +149,6 @@ class Validator {
 
         if (count($this->errors)) return false;
         else return true;
-    }
-
-    public function addError($error) {
-        $this->errors[] = $error;
     }
 
     /**

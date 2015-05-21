@@ -6,7 +6,7 @@
  * Time: 12:31
  */
 
-use FabioCionini\ExampleCore\Database\DataMapper;
+use FabioCionini\ExampleCore\Persistence\MapperInterface;
 use FabioCionini\ExampleCore\Request\RequestInterface;
 use FabioCionini\ExampleCore\Response\ResponseInterface;
 use FabioCionini\ExampleCore\Response\Response;
@@ -21,7 +21,7 @@ class Dispatcher {
 
     private $mapper;
 
-    public function __construct(DataMapper $mapper) {
+    public function __construct(MapperInterface $mapper) {
         $this->mapper = $mapper;
     }
 
@@ -39,8 +39,8 @@ class Dispatcher {
 
         if (class_exists($controllerClass)) {
             $controller = new $controllerClass();
+            $controller->setMapper($this->mapper);
             if (method_exists($controller, $method)) {
-                $controller->setMapper($this->mapper);
                 $controller->$method($request, $response);
             }
             else {

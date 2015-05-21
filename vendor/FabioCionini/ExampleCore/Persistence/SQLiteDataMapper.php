@@ -1,4 +1,4 @@
-<?php namespace FabioCionini\ExampleCore\Database;
+<?php namespace FabioCionini\ExampleCore\Persistence;
 /**
  * @author Fabio Cionini <fabio.cionini@gmail.com>
  *
@@ -6,7 +6,6 @@
  * Time: 07:49
  */
 
-use FabioCionini\ExampleCore\Model\Model;
 
 /**
  * Class DataMapper
@@ -17,37 +16,10 @@ use FabioCionini\ExampleCore\Model\Model;
  * they need no SQL interface code, and certainly no knowledge of the database schema."
  * http://martinfowler.com/eaaCatalog/dataMapper.html
  *
- * @package FabioCionini\ExampleCore\Database
+ * @package FabioCionini\ExampleCore\Persistence
  */
 
-class DataMapper {
-    private $pdo;
-    private $model;
-    private $table;
-    private $primaryKey;
-
-    /**
-     * Initializes the data mapper only with the PDO object
-     *
-     * @param \PDO $pdo
-     */
-    public function __construct(\PDO $pdo) {
-        $this->pdo = $pdo;
-    }
-
-    /**
-     * Sets the model of the data mapper. Extracts table name from the model name.
-     *
-     * @param string $model
-     */
-    public function setModel($model) {
-        $this->model = $model;
-        $this->table = end(explode("\\", $model));
-    }
-
-    public function setPrimaryKey($primaryKey) {
-        $this->primaryKey = $primaryKey;
-    }
+class SQLiteDataMapper extends DataMapper implements MapperInterface {
 
     /**
      * Retrieves an object by its primary key, null if not found
@@ -60,7 +32,9 @@ class DataMapper {
         $stmt->execute([$pk]);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         if ($result) {
-            return new $this->model($result);
+            $object = new $this->model();
+            $object->set($result);
+            return $object;
         }
         else {
             return null;
@@ -79,7 +53,9 @@ class DataMapper {
         if (count($result)) {
             $objects = [];
             foreach ($result as $row) {
-                $objects[] = new $this->model($row);
+                $object = new $this->model();
+                $object->set($row);
+                $objects[] = $object;
             }
             return $objects;
         }
@@ -104,10 +80,10 @@ class DataMapper {
      * Saves the object into DB storage (or updates it if it exists)
      * Returns true if success, otherwise returns the error
      *
-     * @param Model $object
+     * @param MappableObject $object
      * @return bool|string
      */
-    public function insertOrUpdate(Model $object) {
+    public function insertOrUpdate(MappableObject $object) {
         // prepare statement
         $params = $object->get_model_vars();
         $stmt = $this->pdo->prepare("INSERT OR REPLACE INTO ".$this->table." ( ".implode(",", array_keys($params))." ) VALUES ( :".implode(", :", array_keys($params))." )");

@@ -6,7 +6,7 @@
  * Time: 14:45
  */
 
-use FabioCionini\ExampleCore\Database\DataMapper;
+use FabioCionini\ExampleCore\Persistence\MapperInterface;
 
 /**
  * Interface ControllerInterface
@@ -14,5 +14,5 @@ use FabioCionini\ExampleCore\Database\DataMapper;
  * @package FabioCionini\ExampleCore\Controller
  */
 interface ControllerInterface {
-    public function setMapper(DataMapper $mapper);
+    public function setMapper(MapperInterface $mapper);
 }

@@ -6,17 +6,15 @@
  * Time: 17:36
  */
 
-
-
 use FabioCionini\ExampleCore\Model\Model;
-use FabioCionini\ExampleCore\Model\ModelInterface;
+use FabioCionini\ExampleCore\Validation\Validatable;
 
 /**
  * Class Address
  * extends base model providing object properties (map 1:1 with DB)
  * @package app\Models
  */
-class Address extends Model implements ModelInterface {
+class Address extends Model implements Validatable {
     public $name;
     public $phone;
     public $street;
@@ -26,7 +24,7 @@ class Address extends Model implements ModelInterface {
      *
      * @return array
      */
-    public static function validation() {
+    public function validation() {
         return [
             'name' => ['type' => 'string', 'required' => 'true', 'min_length' => 2, 'max_length' => 100],
             'street' => ['type' => 'string', 'required' => 'true', 'min_length' => 3, 'max_length' => 100],
