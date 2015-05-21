@@ -11,7 +11,6 @@ use \FabioCionini\ExampleCore\Routing\Router;
 use \FabioCionini\ExampleCore\Routing\Route;
 use \FabioCionini\ExampleCore\Routing\Dispatcher;
 use \FabioCionini\ExampleCore\Database\DataMapper;
-use \FabioCionini\ExampleCore\Database\Database;
 use \FabioCionini\ExampleCore\Request\Request;
 use \FabioCionini\ExampleCore\Response\Response;
 use \FabioCionini\ExampleCore\View\JSONView;
@@ -29,7 +28,7 @@ $app_loader->register();
 $body = @file_get_contents('php://input');
 $request = new Request($_SERVER['REQUEST_METHOD'], $_SERVER['PATH_INFO'], $body);
 
-// create response object and set its view
+// create response object and set its output view
 $response = new Response();
 $view = new JSONView();
 $response->setView($view);
@@ -48,8 +47,9 @@ foreach($routesConfig as $action=>$call) {
 
 
 // initialize db connection and data mapper
-$dbConfig = include('app/Config/database.php');
-$connection = Database::connection($dbConfig);
+$config = include('app/Config/config.php');
+$connection = new \PDO('sqlite:'.$config['database']['sqliteConnection']['filename']);
+$connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 $dataMapper = new DataMapper($connection);
 
 

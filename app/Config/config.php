@@ -8,9 +8,9 @@
 
 
 return array (
-    'driver' => 'sqlite',
-    'config' => [
-        'sqlite' => [
+    'database' => [
+        'sqliteConnection' => [
+            'driver' => 'sqlite',
             'filename' => sys_get_temp_dir().'PHPtest.sqlite3'
         ]
     ]

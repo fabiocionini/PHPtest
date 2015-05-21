@@ -6,21 +6,12 @@
  * Time: 15:20
  */
 
-use \FabioCionini\ExampleCore\Database\Database;
-
-// autoload classes (PSR-0)
-require_once('SplClassLoader.php');
-$vendor_loader = new SplClassLoader('FabioCionini\\ExampleCore', 'vendor');
-$vendor_loader->register();
-$app_loader = new SplClassLoader('app', '.');
-$app_loader->register();
-
 try {
     // Set default timezone
     date_default_timezone_set('UTC');
 
-    $config = include('app/Config/database.php');
-    $sqlite_db = Database::connection($config);
+    $sqlite_db = new \PDO('sqlite:'.$config['database']['sqliteConnection']['filename']);
+    $sqlite_db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
     // Create table addresses
     $sqlite_db->exec("CREATE TABLE IF NOT EXISTS address (

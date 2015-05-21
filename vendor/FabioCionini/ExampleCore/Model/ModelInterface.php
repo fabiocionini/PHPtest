@@ -15,4 +15,5 @@ interface ModelInterface {
      *
      * @return array
      */
+    public static function validation();
 }
