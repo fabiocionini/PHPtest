@@ -1,10 +1,14 @@
 # PHPtest Example
 ## Version 1.0.3
 
-## Description
+## What it is
 This application is a RESTful HTTP API based on example files (provided in /original directory).
 The original files set up a basic HTTP GET service to retrieve "address" records from a CSV file.
 This application achieves the same functionality but it has been designed and developed as a full MVC, RESTful HTTP API.
+
+This is a backend application built with the purpose to demonstrate certain skills: software architecture, MVC, OOP, design patterns, SOLID principles etc. 
+It does NOT intentionally use any third party framework for this purpose.
+It is NOT production code since it intentionally lacks defensive programming, security measures, unit tests and complete exception handling, for instance.
 
 ## Main features
 - Model-View-Controller class structure
